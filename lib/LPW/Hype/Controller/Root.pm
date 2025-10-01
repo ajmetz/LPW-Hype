@@ -31,6 +31,9 @@ method homepage {
     my  $layout_data_structure      =   {
         TEMPLATE                    =>  'main.htm',
         #SCRIPTS                     =>  q{},
+        HEADER                      =>  {
+            TEMPLATE                =>  'header.htm',
+        },
     };
 
     # Processing:
