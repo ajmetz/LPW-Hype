@@ -67,7 +67,7 @@ method homepage {
                 },
             },
 
-            'YOUR_SAY'              =>  {
+            'YOUR SAY'              =>  {
                 TEMPLATE            =>  'box.htm',
                 'BOX HEADING'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_heading.htm', # Add validation for dynamic path perhaps?
@@ -93,7 +93,7 @@ method homepage {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/sponsorship/box_heading.htm', # Add validation for dynamic path perhaps?
                 },
                 'BOX CONTENT'       =>  {
-                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/sonsorship/box_content.htm', # Add validation for dynamic path perhaps?
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/sponsorship/box_content.htm', # Add validation for dynamic path perhaps?
                 },
             },
 
