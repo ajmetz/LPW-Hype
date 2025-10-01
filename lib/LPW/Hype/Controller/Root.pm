@@ -39,9 +39,61 @@ method homepage {
 
             '2024 EVENT'            =>  {
                 TEMPLATE            =>  'box.htm',
-                'BOX HEADING'       =>  $self->language->localise_html_safe('2024_event.box_heading'),
+                'BOX HEADING'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/2024_event/box_heading.htm', # Add validation for dynamic path perhaps?
+                },
                 'BOX CONTENT'       =>  {
-                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/2024_event.htm', # Add validation for dynamic path perhaps?
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/2024_event/box_content.htm', # Add validation for dynamic path perhaps?
+                },
+            },
+
+            '2025 EVENT'            =>  {
+                TEMPLATE            =>  'box.htm',
+                'BOX HEADING'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/2025_event/box_heading.htm', # Add validation for dynamic path perhaps?
+                },
+                'BOX CONTENT'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/2025_event/box_content.htm', # Add validation for dynamic path perhaps?
+                },
+            },
+
+            'WORD'                  =>  {
+                TEMPLATE            =>  'box.htm',
+                'BOX HEADING'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/word/box_heading.htm', # Add validation for dynamic path perhaps?
+                },
+                'BOX CONTENT'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/word/box_content.htm', # Add validation for dynamic path perhaps?
+                },
+            },
+
+            'YOUR_SAY'              =>  {
+                TEMPLATE            =>  'box.htm',
+                'BOX HEADING'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_heading.htm', # Add validation for dynamic path perhaps?
+                },
+                'BOX CONTENT'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_content.htm', # Add validation for dynamic path perhaps?
+                },
+            },
+
+            'CONTACT'               =>  {
+                TEMPLATE            =>  'box.htm',
+                'BOX HEADING'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/contact/box_heading.htm', # Add validation for dynamic path perhaps?
+                },
+                'BOX CONTENT'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/contact/box_content.htm', # Add validation for dynamic path perhaps?
+                },
+            },
+
+            'SPONSORSHIP'           =>  {
+                TEMPLATE            =>  'box.htm',
+                'BOX HEADING'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/sponsorship/box_heading.htm', # Add validation for dynamic path perhaps?
+                },
+                'BOX CONTENT'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/sonsorship/box_content.htm', # Add validation for dynamic path perhaps?
                 },
             },
 
