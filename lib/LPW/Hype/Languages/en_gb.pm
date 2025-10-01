@@ -43,13 +43,26 @@ Tokens: {
     # or removed depending on whether the method is made
     # public or private.
 
+    # Content Style Guide
+    # -----------------------------
+    # Content should be UTF-8 plain text,
+    # as if any HTML entity encoding,
+    # or URL encoding is needed,
+    # that encoding will be performed in the codebase,
+    # rather than here,
+    # and we wish to avoid double encoding errors,
+    # so this is a purely text, and purely translation zone,
+    # free of code and encodings,
+    # unless using a translation function,
+    # or coding relevant to accurate translation.
+
     Short: {
         @tokens_short = (
 
 
             # LPW::Hype::Controller::Root
 
-            # Nothing yet.
+            '2024_event.box_heading'   =>  '2024\'s Event',
 
         );
     } #short
@@ -58,7 +71,10 @@ Tokens: {
 
         @tokens_long = (
 
+            # LPW::Hype::Controller::Root
+
             # Nothing yet.
+
         );
     } #long
 
@@ -95,6 +111,19 @@ Phrases: {
     # Under each heading, the set of short phrases
     # and set of long phrases,
     # are each sorted independently from one another.
+
+    # Content Style Guide
+    # -----------------------------
+    # Content should be UTF-8 plain text,
+    # as if any HTML entity encoding,
+    # or URL encoding is needed,
+    # that encoding will be performed in the codebase,
+    # rather than here,
+    # and we wish to avoid double encoding errors,
+    # so this is a purely text, and purely translation zone,
+    # free of code and encodings,
+    # unless using a translation function,
+    # or coding relevant to accurate translation.
 
     Webapp: {
 

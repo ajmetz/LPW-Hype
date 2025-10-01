@@ -30,3 +30,7 @@ method localise (@ARG) {
 }
 
 __END__
+
+language_tag() can be used on the handle returned by try_or_die, and that language handle inherits all methods here.
+As such there is no need to have a language_tag method here unless you wish to override the default language_tag method already inherited from Locale::Maketext.
+Note the language_tag method returns with dashes not underscores, and all lowercase.

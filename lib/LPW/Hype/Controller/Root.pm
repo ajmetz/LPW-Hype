@@ -34,6 +34,18 @@ method homepage {
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
         },
+        CONTENT                     =>  {
+            TEMPLATE                =>  'homepage.htm',
+
+            '2024 EVENT'            =>  {
+                TEMPLATE            =>  'box.htm',
+                'BOX HEADING'       =>  $self->language->localise_html_safe('2024_event.box_heading'),
+                'BOX CONTENT'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/2024_event.htm', # Add validation for dynamic path perhaps?
+                },
+            },
+
+        },
     };
 
     # Processing:
