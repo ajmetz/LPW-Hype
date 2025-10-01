@@ -1,8 +1,8 @@
 use     Object::Pad v0.821;
 
-class   Hype::Languages;
+class   LPW::Hype::Languages;
 
-use     Hype::Boilerplate::Code;
+use     LPW::Hype::Boilerplate::Code;
 inherit Locale::Maketext; # Should it be inherit? We'll wait and see when we need to use it.
 use     HTML::Entities;
 

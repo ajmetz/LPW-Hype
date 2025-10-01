@@ -1,4 +1,4 @@
-package Hype::Boilerplate::Code;
+package LPW::Hype::Boilerplate::Code;
 
 use     strict;
 use     warnings;

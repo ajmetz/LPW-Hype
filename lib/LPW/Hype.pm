@@ -1,8 +1,8 @@
 use     Object::Pad v0.821;
 
-class   Hype 1.00;
+class   LPW::Hype 1.00;
 
-use     Hype::Boilerplate::Code;
+use     LPW::Hype::Boilerplate::Code;
 inherit Mojolicious;
 
 # This method will run once at server start
@@ -37,9 +37,9 @@ method configure_the_application {
 
 method load_additional_plugins {
 
-    $self->plugin('Hype::Plugin::Routes');
-    $self->plugin('Hype::Plugin::Languages');
-    $self->plugin('Hype::Plugin::Log');
+    $self->plugin('LPW::Hype::Plugin::Routes');
+    $self->plugin('LPW::Hype::Plugin::Languages');
+    $self->plugin('LPW::Hype::Plugin::Log');
     return $self;
 
 }
@@ -61,7 +61,7 @@ method exclude_author_commands {
 method setup_customisation_of_mojolicious_file_paths {
 
     #Initial Values:
-    my  $files                  =   $self->home->rel_file('lib/Hype/Files');
+    my  $files                  =   $self->home->rel_file('lib/LPW/Hype/Files');
 
     # Switch to installable "public" directory
     $self->static->paths->[0]   =   $files->child('public');
@@ -78,21 +78,22 @@ method setup_template_nest {
     $self->defaults(
 
         # Store Template::Nest setup data in the stash:
-        layout_settings     =>   [
+        layout_settings         =>   [
 
-            template_dir    =>  $self->app->home->rel_file('lib/Hype/Files')->child('layouts')->to_string,
-            token_delims    =>  ['PUT','HERE'],
-            escape_char     =>  '\\',
-            name_label      =>  'TEMPLATE',
-            template_ext    =>  '', # Blank so can declare extension under the NAME key.
-                                    # This will allow me to use htm and html
-                                    # or anything else as I wish.
+            template_dir        =>  $self->app->home->rel_file('lib/LPW/Hype/Files')->child('layouts')->to_string,
+            token_delims        =>  ['PUT','HERE'],
+            escape_char         =>  '\\',
+            name_label          =>  'TEMPLATE',
+            token_placeholder   =>  "\\PUT PUT param_name HERE \\HERE",
+            template_ext        =>  '', # Blank so can declare extension under the NAME key.
+                                        # This will allow me to use htm and html
+                                        # or anything else as I wish.
 
-            fixed_indent    =>  0,  # Off (0)
-                                    # - On (1) would be nice for tidy source code,
-                                    # and would mess with white space in substituted multi-line values
-                                    # - i.e. textarea values, or hidden form values -
-                                    # so I've decided to keep this off.
+            fixed_indent        =>  0,  # Off (0)
+                                        # - On (1) would be nice for tidy source code,
+                                        # and would mess with white space in substituted multi-line values
+                                        # - i.e. textarea values, or hidden form values -
+                                        # so I've decided to keep this off.
 
         ],
 

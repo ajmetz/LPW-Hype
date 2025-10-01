@@ -1,10 +1,10 @@
 use     Object::Pad v0.821;
 
-class   Hype::Controller::Root;
+class   LPW::Hype::Controller::Root;
 
 inherit Mojolicious::Controller;
 
-use     Hype::Boilerplate::Code;
+use     LPW::Hype::Boilerplate::Code;
 use     Template::Nest;
 
 method auto {
@@ -30,13 +30,7 @@ method homepage {
     # Initial values:
     my  $layout_data_structure      =   {
         TEMPLATE                    =>  'main.htm',
-        SCRIPTS                     =>  q{},
-        CONTENT                     =>  {
-            TEMPLATE                =>  'generic-content.htm',
-            'SPECIFIC CONTENT'      =>  {
-                TEMPLATE            =>  'homepage/content.htm',
-            },
-        },
+        #SCRIPTS                     =>  q{},
     };
 
     # Processing:
@@ -50,3 +44,15 @@ method homepage {
 }
 
 __END__
+
+    # Initial values:
+    my  $layout_data_structure      =   {
+        TEMPLATE                    =>  'main.htm',
+        SCRIPTS                     =>  q{},
+        CONTENT                     =>  {
+            TEMPLATE                =>  'generic-content.htm',
+            'SPECIFIC CONTENT'      =>  {
+                TEMPLATE            =>  'homepage/content.htm',
+            },
+        },
+    };

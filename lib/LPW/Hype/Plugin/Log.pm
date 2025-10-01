@@ -1,8 +1,8 @@
 use     Object::Pad v0.821;
 
-class   Hype::Plugin::Log;
+class   LPW::Hype::Plugin::Log;
 
-use     Hype::Boilerplate::Code;
+use     LPW::Hype::Boilerplate::Code;
 inherit Mojolicious::Plugin;
 
 use     Mojo::Util qw(dumper);

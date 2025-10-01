@@ -1,6 +1,6 @@
-package Hype::Boilerplate::Test;
+package LPW::Hype::Boilerplate::Test;
 
-use     Hype::Boilerplate::Code;
+use     LPW::Hype::Boilerplate::Code;
 use     Import::Into;
 use     Test::Output;
 use     Test2::V0;

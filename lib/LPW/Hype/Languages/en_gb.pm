@@ -1,10 +1,10 @@
 use     Object::Pad v0.821;
 
-class   Hype::Languages::en_gb;
+class   LPW::Hype::Languages::en_gb;
 
-use     Hype::Boilerplate::Code;
+use     LPW::Hype::Boilerplate::Code;
 
-inherit Hype::Languages;
+inherit LPW::Hype::Languages;
 
 # ----------------------------------
 
@@ -47,7 +47,7 @@ Tokens: {
         @tokens_short = (
 
 
-            # Hype::Controller::Root
+            # LPW::Hype::Controller::Root
 
             # Nothing yet.
 
