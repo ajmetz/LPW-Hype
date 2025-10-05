@@ -112,8 +112,22 @@ method homepage {
 
 method shoutbox {
 
+    # Initial values:
+    my  $blank                      =   q{};
+    my  $layout_data_structure      =   {
+        TEMPLATE                    =>  'main.htm',
+        HEADER                      =>  $blank,
+        CONTENT                     =>  {
+            TEMPLATE                =>  'shoutbox.htm',
+        },
+    };
+
+    # Processing:
+    my  $layout                     =   Template::Nest->new($self->stash->{layout_settings}->@*)->render($layout_data_structure);
+
+    # Output:
     $self->render(
-        text => "Hello Shoutbox!",
+        text                        =>  $layout,
     );
 
 }
