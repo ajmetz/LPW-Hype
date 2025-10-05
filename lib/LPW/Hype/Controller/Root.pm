@@ -110,6 +110,14 @@ method homepage {
 
 }
 
+method shoutbox {
+
+    $self->render(
+        text => "Hello Shoutbox!",
+    );
+
+}
+
 __END__
 
     # Initial values:

@@ -20,6 +20,10 @@ method register ($app, $conf) {
     $routes
         ->any('/sponsorship')   ->to('Root#'.   'sponsorship'   );
 
+    $routes
+        ->any('/shoutbox')      ->to('Root#'.   'shoutbox'   );
+
+
     # Default / fall back for anything else (other than simply root)...
     $routes
         ->any('/*rest_of_url')  ->to('Root#'.   'homepage'      ); # Does not match '/' and only matches '/some-stuff'
