@@ -74,6 +74,9 @@ method homepage {
                 },
                 'BOX CONTENT'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_content.htm', # Add validation for dynamic path perhaps?
+                    'SHOUTBOX'      =>  {
+                        TEMPLATE    =>  'shoutbox.htm',
+                    },
                 },
             },
 

@@ -25,7 +25,7 @@
                                     <table>
                                         <tr>
                                             <td style="padding-bottom:10px;padding-top:10px;">
-                                                <a href="#shoutbox_section">
+                                                <a href="#shoutbox_section" onclick="textarea_refresh('shoutbox_display_form','shoutbox_display');">
                                                     <span style="font-weight:bold;font-size:18pt;color:#327ef7;">Refresh / View New Messages</span>
                                                 </a>
                                             </td>
@@ -37,46 +37,7 @@
                             <tr>
                                 <td>
                                     <form name="shoutbox_display_form" id="shoutbox_display">
-                                        <textarea readonly name="shoutbox_display" id="shoutbox_display" style="width:100%;padding:0px;border:none;resize:both;font-size:14pt;" rows="10">[ 13:06 15/09/2025 ]
-Bob:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Dave:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Bob:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Dave:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Bob:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Dave:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Bob:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Dave:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Bob:
-Hello! Whoop! Whoop!
-
-[ 13:06 15/09/2025 ]
-Dave:
-Hello! Whoop! Whoop!
-                                        </textarea>
+                                        <textarea readonly name="shoutbox_display" id="shoutbox_display" style="width:100%;padding:0px;border:none;resize:both;font-size:14pt;" rows="10">Shout out messages should load here shortly...</textarea>
                                     </form>
                                 </td>
                             </tr>
@@ -164,3 +125,9 @@ Hello! Whoop! Whoop!
         <td style="background-color:#000000;"><img src="transbit.gif" width="4" height="4"></td>
     </tr>
 </table>
+<script type="text/javascript" src="/javascript/textarea_refresh.js"></script>
+<script type="text/javascript">
+    document.body.onload = function() {
+        textarea_refresh('shoutbox_display_form','shoutbox_display');
+    };
+</script>
