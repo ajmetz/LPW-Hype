@@ -74,6 +74,9 @@ method homepage {
                 },
                 'BOX CONTENT'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_content.htm', # Add validation for dynamic path perhaps?
+                    'SHOUTBOX'      =>  {
+                        TEMPLATE    =>  'shoutbox.htm',
+                    },
                 },
             },
 
@@ -97,6 +100,28 @@ method homepage {
                 },
             },
 
+        },
+    };
+
+    # Processing:
+    my  $layout                     =   Template::Nest->new($self->stash->{layout_settings}->@*)->render($layout_data_structure);
+
+    # Output:
+    $self->render(
+        text                        =>  $layout,
+    );
+
+}
+
+method shoutbox {
+
+    # Initial values:
+    my  $blank                      =   q{};
+    my  $layout_data_structure      =   {
+        TEMPLATE                    =>  'main.htm',
+        HEADER                      =>  $blank,
+        CONTENT                     =>  {
+            TEMPLATE                =>  'shoutbox.htm',
         },
     };
 

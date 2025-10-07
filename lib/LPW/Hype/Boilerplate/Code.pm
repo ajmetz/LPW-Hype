@@ -28,6 +28,7 @@ sub import {
     # Processing / Declaring what to import:
     $ARG        ->import        for qw(strict warnings utf8);
     feature     ->import        ($feature_bundle);
+    #feature     ->import        ('class');
     builtin     ->import        ($feature_bundle);
     English     ->import::into  ($calling_module_level_depth);
 
