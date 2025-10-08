@@ -13,6 +13,7 @@ method auto {
     my  $valid_language_requested   =   $self->validation->has_data
                                         && $self->validation->required('language')->in(@supported_languages)->is_valid? $self->validation->output:
                                         undef;
+                                        # Why are we defining a variable about language use and then never using it?
     return $self;
                                         
 }
@@ -122,6 +123,33 @@ method shoutbox {
         HEADER                      =>  $blank,
         CONTENT                     =>  {
             TEMPLATE                =>  'shoutbox.htm',
+        },
+    };
+
+    # Processing:
+    my  $layout                     =   Template::Nest->new($self->stash->{layout_settings}->@*)->render($layout_data_structure);
+
+    # Output:
+    $self->render(
+        text                        =>  $layout,
+    );
+
+}
+
+method sponsorship {
+
+    # Initial values:
+    my  $blank                      =   q{};
+    my  $layout_data_structure      =   {
+        TEMPLATE                    =>  'main.htm',
+        HEADER                      =>  {
+            TEMPLATE                =>  'header.htm',
+        },
+        CONTENT                     =>  {
+            TEMPLATE                =>  'content/'.$self->language->language_tag().'/sponsorship/page.htm',
+            'GET-IN-TOUCH BUTTON'   =>  {
+                TEMPLATE            =>  'content/'.$self->language->language_tag().'/sponsorship/get_in_touch_button.htm',
+            },
         },
     };
 
