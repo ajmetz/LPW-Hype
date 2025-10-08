@@ -5,7 +5,7 @@ class   LPW::Hype::Controller::Root;
 inherit Mojolicious::Controller;
 
 use     LPW::Hype::Boilerplate::Code;
-use     Template::Nest;
+use     Template::Nest; # Personal version, patched with "use open ':std', ':encoding(UTF-8)';" to enable utf-8 support.
 
 method auto {
 
