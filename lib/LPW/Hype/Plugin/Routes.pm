@@ -7,7 +7,8 @@ inherit Mojolicious::Plugin;
 
 method register ($app, $conf) {
 
-    my  $routes =   $app->routes->under->to('Root#auto');
+    # Pre-processing:
+    my  $routes =   $app->routes->under->to('FormData#check_for_language_change')->under->to('FormData#process_according_to_type');
 
     # Default at root:
     $routes
@@ -15,16 +16,7 @@ method register ($app, $conf) {
 
     # Root.pm:
     $routes
-        ->any('/hello')         ->to('Root#'.   'hello_world'   );
-
-    $routes
         ->any('/sponsorship')   ->to('Root#'.   'sponsorship'   );
-
-    $routes
-        ->any('/shoutbox')      ->to('Root#'.   'shoutbox'      );
-
-    $routes
-        ->post('/shout_message')->to('Input#'.   'shout_message');
 
     # Default / fall back for anything else (other than simply root)...
     $routes

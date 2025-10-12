@@ -7,25 +7,6 @@ inherit Mojolicious::Controller;
 use     LPW::Hype::Boilerplate::Code;
 use     Template::Nest; # Personal version, patched with "use open ':std', ':encoding(UTF-8)';" to enable utf-8 support.
 
-method auto {
-
-    my  @supported_languages        =   ('en-GB',);
-    my  $valid_language_requested   =   $self->validation->has_data
-                                        && $self->validation->required('language')->in(@supported_languages)->is_valid? $self->validation->output:
-                                        undef;
-                                        # Why are we defining a variable about language use and then never using it?
-    return $self;
-                                        
-}
-
-method hello_world {
-
-    $self->render(
-        text => "Hello World!",
-    );
-
-}
-
 method homepage {
 
     # Initial values:
@@ -101,28 +82,6 @@ method homepage {
                 },
             },
 
-        },
-    };
-
-    # Processing:
-    my  $layout                     =   Template::Nest->new($self->stash->{layout_settings}->@*)->render($layout_data_structure);
-
-    # Output:
-    $self->render(
-        text                        =>  $layout,
-    );
-
-}
-
-method shoutbox {
-
-    # Initial values:
-    my  $blank                      =   q{};
-    my  $layout_data_structure      =   {
-        TEMPLATE                    =>  'main.htm',
-        HEADER                      =>  $blank,
-        CONTENT                     =>  {
-            TEMPLATE                =>  'shoutbox.htm',
         },
     };
 
