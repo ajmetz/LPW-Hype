@@ -20,15 +20,17 @@ method check_for_language_change {
 
 method process_according_to_type {
     $self->log_trace('Checking form_type')
-    ->log_trace('CSRF input is:')
+    ->log_debug('CSRF input is:')
     ->log_dump_values($self->validation->input->{csrf_token})
-    ->log_trace('Which should match...')
+    ->log_debug('Which should match...')
     ->log_dump_values($self->csrf_token);
 
     my  $condition  =   $self->validation->has_data
                         && $self->validation->csrf_protect->is_valid;
                         
-    $self->log_trace('Is our condition true or false?')->log_dump_values($condition);
+    $self->log_debug('Is our condition true or false?')->log_dump_values($condition);
+    $self->log_debug('Condition is true.') if $condition;
+    $self->log_debug('Condition is false.') unless $condition;
     
     return $self                        unless  ($self->validation->has_data
                                                 && $self->validation->csrf_protect->is_valid);

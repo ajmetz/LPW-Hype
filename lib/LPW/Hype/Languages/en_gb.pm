@@ -156,6 +156,8 @@ Phrases: {
             'CSRF input is:'        =>  'CSRF input is:',
             'Which should match...' =>  'Which should match...',
             'Is our condition true or false?'   =>  'Is our condition true or false?',
+            'Condition is true.'    =>  'Condition is true.',
+            'Condition is false.'    =>  'Condition is false.',
         );
     } #debug
 
