@@ -19,38 +19,20 @@ method check_for_language_change {
 }
 
 method process_according_to_type {
-#    $self->log_trace('Checking form_type')
-#    ->log_debug('CSRF input is:')
-#    ->log_dump_values($self->validation->input->{csrf_token})
-#    ->log_debug('Which should match...')
-#    ->log_dump_values($self->csrf_token);
 
-#    my  $condition  =   $self->validation->has_data
-#                        && $self->validation->csrf_protect->is_valid;
-                        
-#    $self->log_debug('Is our condition true or false?')->log_dump_values($condition);
-#    $self->log_debug('Condition is true.') if $condition;
-#    $self->log_debug('Condition is false.') unless $condition;
-    
-    $self->log_debug('We have data.') if $self->validation->has_data;
-#    $self->log_debug('We have protection.') if $self->validation->csrf_protect;
-    $self->log_debug('Protection is valid.') if $self->validation->required('csrf_token')->equal_to($self->csrf_token)->is_valid; # Does not work as expected.
- #   $self->log_debug('Protection is valid.') unless $self->validation->csrf_protect->has_error('csrf_token');
-#    $self->log_dump_values(
-#        $self->validation->error('csrf_token')
-#    );
-    $self->log_dump_values(
-        $self->validation->failed
-    );
+    $self->log_trace('Checking form_type.');
+
     return $self                        unless  ($self->validation->has_data
-                                                && $self->validation->csrf_protect->is_valid);
-    $self->log_trace('We have data and a valid csrf');
+                                                && $self->validation->csrf_protect);
+
+    $self->log_trace('We have data and a valid csrf.');
+
     my  @supported_form_types       =   ('shout_message',);
     my  $valid_form_type            =   $self->validation->required('form_type')->in(@supported_form_types)->is_valid? $self->validation->output->{'form_type'}:
                                         undef;
 
-    $self->log_trace('Not valid form type') unless $valid_form_type;
-    $self->log_trace('Valid form type') if $valid_form_type;
+    $self->log_trace('Not valid form type.') unless $valid_form_type;
+    $self->log_trace('Valid form type.') if $valid_form_type;
     $self->log_dump_values($valid_form_type);
 
     # Assuming form_type only ever has one value,
@@ -78,3 +60,28 @@ method process_shout_message {
 }
 
 __END__
+
+
+#    $self->log_trace('Checking form_type')
+#    ->log_debug('CSRF input is:')
+#    ->log_dump_values($self->validation->input->{csrf_token})
+#    ->log_debug('Which should match...')
+#    ->log_dump_values($self->csrf_token);
+
+#    my  $condition  =   $self->validation->has_data
+#                        && $self->validation->csrf_protect->is_valid;
+                        
+#    $self->log_debug('Is our condition true or false?')->log_dump_values($condition);
+#    $self->log_debug('Condition is true.') if $condition;
+#    $self->log_debug('Condition is false.') unless $condition;
+    
+    $self->log_debug('We have data.') if $self->validation->has_data;
+    $self->log_debug('We have protection.') if $self->validation->csrf_protect;
+#    $self->log_debug('Protection is valid.') if $self->validation->required('csrf_token')->like(scalar $self->csrf_token)->is_valid; # Does not work as expected.
+ #   $self->log_debug('Protection is valid.') unless $self->validation->csrf_protect->has_error('csrf_token');
+#    $self->log_dump_values(
+#        $self->validation->error('csrf_token')
+#    );
+    $self->log_dump_values(
+        $self->validation->failed
+    );

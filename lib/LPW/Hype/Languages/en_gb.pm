@@ -149,7 +149,7 @@ Phrases: {
             # Nothing yet.
 
             # LPW::Hype::Controller::FormData
-            'Checking form_type'    =>  'Checking form_type',
+            'Checking form_type.'    =>  'Checking form_type.',
             'Processing shout'      =>  'Processing shout',
             'Not valid form type'   =>  'Not valid form type',
             'Valid form type'       =>  'Valid form type',
@@ -161,6 +161,10 @@ Phrases: {
             'We have data.'         =>  'We have data.',
             'We have protection.'   =>  'We have protection.',
             'Protection is valid.'  =>  'Protection is valid.',
+            'We have data and a valid csrf.'    =>  'We have data and a valid csrf.',
+
+            'Not valid form type.'  =>  'Not valid form type.',
+            'Valid form type.'      =>  'Valid form type.',
         );
     } #debug
 
