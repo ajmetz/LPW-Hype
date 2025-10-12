@@ -19,7 +19,8 @@ method check_for_language_change {
 }
 
 method process_according_to_type {
-    return $self unless $self->validation->has_data;
+    return $self                        unless  $self->validation->has_data
+                                                && $self->validation->csrf_protect->is_valid;
 
     my  @supported_form_types       =   ('shout_message',);
     my  $valid_form_type            =   $self->validation->required('form_type')->in(@supported_form_types)->is_valid? $self->validation->output:

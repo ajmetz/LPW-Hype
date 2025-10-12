@@ -58,6 +58,10 @@ method homepage {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_content.htm', # Add validation for dynamic path perhaps?
                     'SHOUTBOX'      =>  {
                         TEMPLATE    =>  'shoutbox.htm',
+                        'SHOUTBOX REFRESH TEXT'
+                                    =>  $self->language->localise_html_safe('shoutbox.refresh'),
+                        'CSRF TOKEN'
+                                    =>  $self->csrf_token,
                     },
                 },
             },

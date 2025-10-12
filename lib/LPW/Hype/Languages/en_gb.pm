@@ -62,7 +62,8 @@ Tokens: {
 
             # LPW::Hype::Controller::Root
 
-            '2024_event.box_heading'   =>  '2024\'s Event',
+            '2024_event.box_heading'    =>  '2024\'s Event',
+            'shoutbox.refresh'          =>  'Refresh / View New Messages',
 
         );
     } #short
