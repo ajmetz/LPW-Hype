@@ -32,6 +32,10 @@ method process_according_to_type {
     $self->log_debug('Condition is true.') if $condition;
     $self->log_debug('Condition is false.') unless $condition;
     
+    $self->log_debug('We have data.') if $self->validation->has_data;
+    $self->log_debug('We have protection.') if $self->validation->csrf_protect;
+    $self->log_debug('Protection is valid.') if $self->validation->csrf_protect->is_valid;    
+    
     return $self                        unless  ($self->validation->has_data
                                                 && $self->validation->csrf_protect->is_valid);
     $self->log_trace('We have data and a valid csrf');

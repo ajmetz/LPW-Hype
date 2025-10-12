@@ -158,6 +158,9 @@ Phrases: {
             'Is our condition true or false?'   =>  'Is our condition true or false?',
             'Condition is true.'    =>  'Condition is true.',
             'Condition is false.'    =>  'Condition is false.',
+            'We have data.'         =>  'We have data.',
+            'We have protection.'   =>  'We have protection.',
+            'Protection is valid.'  =>  'Protection is valid.',
         );
     } #debug
 
