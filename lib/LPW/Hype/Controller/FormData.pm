@@ -19,23 +19,49 @@ method check_for_language_change {
 }
 
 method process_according_to_type {
-    return $self                        unless  $self->validation->has_data
-                                                && $self->validation->csrf_protect->is_valid;
+    $self->log_trace('Checking form_type')
+    ->log_trace('CSRF input is:')
+    ->log_dump_values($self->validation->input->{csrf_token})
+    ->log_trace('Which should match...')
+    ->log_dump_values($self->csrf_token);
 
+    my  $condition  =   $self->validation->has_data
+                        && $self->validation->csrf_protect->is_valid;
+                        
+    $self->log_trace('Is our condition true or false?')->log_dump_values($condition);
+    
+    return $self                        unless  ($self->validation->has_data
+                                                && $self->validation->csrf_protect->is_valid);
+    $self->log_trace('We have data and a valid csrf');
     my  @supported_form_types       =   ('shout_message',);
-    my  $valid_form_type            =   $self->validation->required('form_type')->in(@supported_form_types)->is_valid? $self->validation->output:
+    my  $valid_form_type            =   $self->validation->required('form_type')->in(@supported_form_types)->is_valid? $self->validation->output->{'form_type'}:
                                         undef;
+
+    $self->log_trace('Not valid form type') unless $valid_form_type;
+    $self->log_trace('Valid form type') if $valid_form_type;
+    $self->log_dump_values($valid_form_type);
 
     # Assuming form_type only ever has one value,
     # so only one form type will be processed per request,
     # in the order of the ternary questions...
 
-    return $valid_form_type eq 'shout_message'? $self->process_shout_message:
+    return ($valid_form_type eq 'shout_message')? $self->process_shout_message:
     $self;
 
 }
 
 method process_shout_message {
+    $self->log_trace('Processing shout');
+    my  $no_unsafe_words    =   qr/[^(textarea)]/i;
+    $self->stash(
+        'valid_shout'   =>  $self->validation
+                            ->required('name', 'not_empty')->size(1,undef)
+                            ->required('message','not_empty')->size(1,undef)->like($no_unsafe_words)
+                            ->is_valid? $self->validation->output:
+                            undef,
+        'shout_errors'  =>  $self->validation->has_error?   'There was an error':
+                            'There was no error',
+    );
     return $self;
 }
 

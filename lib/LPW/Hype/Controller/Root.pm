@@ -62,6 +62,8 @@ method homepage {
                                     =>  $self->language->localise_html_safe('shoutbox.refresh'),
                         'CSRF TOKEN'
                                     =>  $self->csrf_token,
+                        'ERROR STATUS'
+                                    =>  $self->stash('shout_errors') // q{},
                     },
                 },
             },

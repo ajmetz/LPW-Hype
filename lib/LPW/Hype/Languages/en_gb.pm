@@ -148,9 +148,15 @@ Phrases: {
 
             # Nothing yet.
 
-
+            # LPW::Hype::Controller::FormData
+            'Checking form_type'    =>  'Checking form_type',
+            'Processing shout'      =>  'Processing shout',
+            'Not valid form type'   =>  'Not valid form type',
+            'Valid form type'       =>  'Valid form type',
+            'CSRF input is:'        =>  'CSRF input is:',
+            'Which should match...' =>  'Which should match...',
+            'Is our condition true or false?'   =>  'Is our condition true or false?',
         );
-
     } #debug
 
     Verbose: {
