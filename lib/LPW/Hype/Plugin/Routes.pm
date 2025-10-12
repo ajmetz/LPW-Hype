@@ -21,8 +21,10 @@ method register ($app, $conf) {
         ->any('/sponsorship')   ->to('Root#'.   'sponsorship'   );
 
     $routes
-        ->any('/shoutbox')      ->to('Root#'.   'shoutbox'   );
+        ->any('/shoutbox')      ->to('Root#'.   'shoutbox'      );
 
+    $routes
+        ->post('/shout_message')->to('Input#'.   'shout_message');
 
     # Default / fall back for anything else (other than simply root)...
     $routes
