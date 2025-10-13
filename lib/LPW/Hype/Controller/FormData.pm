@@ -11,7 +11,7 @@ method check_for_language_change {
     return $self unless $self->validation->has_data;
 
     my  @supported_languages        =   ('en-GB',); # Supported languages should not be hard coded here, and instead dynamic based on actual languages found to be present.
-    my  $valid_language_requested   =   $self->validation->required('language')->in(@supported_languages)->is_valid? $self->validation->output:
+    my  $valid_language_requested   =   $self->validation->optional('language')->in(@supported_languages)->is_valid? $self->validation->param:
                                         undef;
                                         # Why are we defining a variable about language use and then never using it?
     return $self;
@@ -48,13 +48,16 @@ method process_shout_message {
     $self->log_trace('Processing shout');
     my  $no_unsafe_words    =   qr/[^(textarea)]/i;
     $self->stash(
-        'valid_shout'   =>  $self->validation
-                            ->required('name', 'not_empty')->size(1,undef)
-                            ->required('message','not_empty')->size(1,undef)->like($no_unsafe_words)
-                            ->is_valid? $self->validation->output:
+        'valid_shout'   =>  $self->validation->required('name', 'not_empty')->size(1,undef)->like($no_unsafe_words)->is_valid
+                            &&
+                            $self->validation->required('message','not_empty')->size(1,undef)->like($no_unsafe_words)->is_valid? $self->validation->output:
                             undef,
-        'shout_errors'  =>  $self->validation->has_error?   'There was an error':
-                            'There was no error',
+        'shout_errors'  =>  {
+                                name    =>  $self->validation->has_error('name')?   'There was an error':
+                                            'There was no error',
+                                message =>  $self->validation->has_error('name')?   'There was an error':
+                                            'There was no error',
+                            },
     );
     return $self;
 }

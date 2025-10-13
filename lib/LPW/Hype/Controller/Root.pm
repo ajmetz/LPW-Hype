@@ -62,8 +62,10 @@ method homepage {
                                     =>  $self->language->localise_html_safe('shoutbox.refresh'),
                         'CSRF TOKEN'
                                     =>  $self->csrf_token,
-                        'ERROR STATUS'
-                                    =>  $self->stash('shout_errors') // q{},
+                        'NAME ERROR'
+                                    =>  reftype($self->stash('shout_errors')) eq 'HASH'? $self->stash('shout_errors')->{name} // q{}:q{},
+                        'MESSAGE ERROR'
+                                    =>  reftype($self->stash('shout_errors')) eq 'HASH'? $self->stash('shout_errors')->{message} // q{}:q{},
                     },
                 },
             },
