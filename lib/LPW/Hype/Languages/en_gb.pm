@@ -161,22 +161,25 @@ Phrases: {
             # Nothing yet.
 
             # LPW::Hype::Controller::FormData
-            'Checking form_type.'    =>  'Checking form_type.',
-            'Processing shout'      =>  'Processing shout',
-            'Not valid form type'   =>  'Not valid form type',
-            'Valid form type'       =>  'Valid form type',
-            'CSRF input is:'        =>  'CSRF input is:',
-            'Which should match...' =>  'Which should match...',
+            'Checking form_type.'               =>  'Checking form_type.',
+            'Condition is false.'               =>  'Condition is false.',
+            'Condition is true.'                =>  'Condition is true.',
+            'CSRF input is:'                    =>  'CSRF input is:',
             'Is our condition true or false?'   =>  'Is our condition true or false?',
-            'Condition is true.'    =>  'Condition is true.',
-            'Condition is false.'    =>  'Condition is false.',
-            'We have data.'         =>  'We have data.',
-            'We have protection.'   =>  'We have protection.',
-            'Protection is valid.'  =>  'Protection is valid.',
+            'Not valid form type'               =>  'Not valid form type',
+            'Not valid form type.'              =>  'Not valid form type.',
+            'Processing shout'                  =>  'Processing shout',
+            'Protection is valid.'              =>  'Protection is valid.',
+            'Valid form type'                   =>  'Valid form type',
+            'Valid form type.'                  =>  'Valid form type.',
+            'We have data.'                     =>  'We have data.',
             'We have data and a valid csrf.'    =>  'We have data and a valid csrf.',
+            'We have protection.'               =>  'We have protection.',
+            'Which should match...'             =>  'Which should match...',
 
-            'Not valid form type.'  =>  'Not valid form type.',
-            'Valid form type.'      =>  'Valid form type.',
+            
+            # LPW::Hype::Controller::Root
+            'What does our stash look like?'    =>  'What does our stash look like?',
         );
     } #debug
 

@@ -59,7 +59,7 @@ method arrayref_to_regex_OR_string    ($list) {
 
 =over
 
-item get_specific_unsafe_word($string_to_check, $arrayref_of_values_to_check_for);
+item $self->get_specific_unsafe_word($string_to_check, $arrayref_of_values_to_check_for);
 
 Takes a string to check, and an arrayref of values to check for,
 and returns the part of the string that matched the values to check for.
@@ -70,7 +70,7 @@ Values expected to be strings and not regexes themselves.
 =cut
 
 method get_specific_unsafe_word ($string, $unsafe_words) {
-    my  $unsafe_word_regex_string           =   arrayref_to_regex_OR_string($unsafe_words);
+    my  $unsafe_word_regex_string           =   $self->arrayref_to_regex_OR_string($unsafe_words);
     my  $matches_and_captures_unsafe_word   =   qr/
                                                     (?<unsafe_word>                 # Start named capturing grouping
                                                         ($unsafe_word_regex_string) # Match any unsafe words in this subgrouping
@@ -90,24 +90,24 @@ method process_shout {
     my  $unsafe_words               =   [qw(
                                             textarea
                                         )];
-    my  $unsafe_words_regex_string  =   arrayref_to_regex_OR_string($unsafe_words);
+    my  $unsafe_words_regex_string  =   $self->arrayref_to_regex_OR_string($unsafe_words);
     my  $no_unsafe_words            =   qr/[^($unsafe_words_regex_string)]/i;
     my  $no_at_sign                 =   qr/[^@]/i;
 
     for my $field ('name', 'message') {
-        $self->stash->{shout}->{errors}->{"$field"} =   $self->validation->required($field, 'not_empty')->size(1,undef)->has_error? $self->language->localise_html_safe(
-                                                                                                                                        'shoutbox.error.empty_or_zero_length',
-                                                                                                                                        $self->language->localise("shoutbox.$field.descriptive_field_name")
-                                                                                                                                    ):
-                                                        $self->validation->topic($field)->like($no_unsafe_words)->has_error?        $self->language->localise_html_safe(
-                                                                                                                                        get_specific_unsafe_word($self->validation->param($field),$unsafe_words)?
-                                                                                                                                            (
-                                                                                                                                                'shoutbox.error.unsafe_word',
-                                                                                                                                                get_specific_unsafe_word($self->validation->param($field),$unsafe_words),
+        $self->stash('shout')->{errors}->{"$field"} =   $self->validation->required($field, 'not_empty')->size(1,undef)->has_error($field)? $self->language->localise_html_safe(
+                                                                                                                                                'shoutbox.error.empty_or_zero_length',
+                                                                                                                                                $self->language->localise("shoutbox.$field.descriptive_field_name")
                                                                                                                                             ):
-                                                                                                                                            'shoutbox.error.unknown_unsafe_word',
-                                                                                                                                    ):
-                                                        $self->validation->topic($field)->like($no_at_sign)->has_error?             $self->language->localise_html_safe('shoutbox.error.no_at_sign'):
+                                                        $self->validation->topic($field)->like($no_unsafe_words)->has_error($field)?        $self->language->localise_html_safe(
+                                                                                                                                                $self->get_specific_unsafe_word($self->validation->param($field),$unsafe_words)?
+                                                                                                                                                    (
+                                                                                                                                                        'shoutbox.error.unsafe_word',
+                                                                                                                                                        $self->get_specific_unsafe_word($self->validation->param($field),$unsafe_words),
+                                                                                                                                                    ):
+                                                                                                                                                    'shoutbox.error.unknown_unsafe_word',
+                                                                                                                                            ):
+                                                        $self->validation->topic($field)->like($no_at_sign)->has_error($field)?             $self->language->localise_html_safe('shoutbox.error.no_at_sign'):
                                                         undef;
     };
 

@@ -25,6 +25,13 @@ method localise_html_safe (@ARG) {
     );
 }
 
+method localise_html_safe_with_non_breaking_spaces_only (@ARG) {
+
+        my  $non_breaking_space =   &nbsp;
+        my  $value              =   $self->localise_html_safe(@ARG);
+        return          $value  =~  s/ /$non_breaking_space/ig;
+}
+
 method localise (@ARG) {
     $self->maketext(@ARG);
 }

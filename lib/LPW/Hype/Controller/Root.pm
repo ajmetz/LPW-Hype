@@ -15,6 +15,7 @@ method homepage {
                                                             name
                                                             message
                                                         );
+    my  $non_breaking_space                         =   '&nbsp;';
     my  @shoutbox_field_layouts                     =   (
                         TEMPLATE                    =>  'shoutbox/shoutbox.htm',
                         'SHOUT-BOX-LOGO-ALT-TEXT'   =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
@@ -22,10 +23,6 @@ method homepage {
                         'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
                         'CSRF TOKEN'                =>  $self->csrf_token,
     );
-
-    my  $bob    =   chop scalar reverse (
-                                                                                                                                                $self->language->localise('shoutbox.field_error_heading'),
-                                                                                                                                            );
 
     for my $field (@shoutbox_field_order) {
     
@@ -38,25 +35,43 @@ method homepage {
     
         push @shoutbox_field_layouts, (
             uc($field).' FIELD'     =>  {
-                                            ($self->stash->{shout}->{errors}-{$field})? (
+                                            $self->stash('shout')->{errors}->{"$field"}? (
                                                                                             TEMPLATE                                =>  'shoutbox/field_error.htm',
                                                                                             'ERROR-HEADING-INITIAL-CHARACTER'       =>  encode_entities(
-                                                                                                                                            $bob
-                                                                                                                                        ),
-                                                                                            'ERROR-HEADING-REMAINING-CHARACTERS'    =>  encode_entities(
                                                                                                                                             join '',
                                                                                                                                             map {
-                                                                                                                                                my $heading = $ARG;
-                                                                                                                                                chop scalar reverse ($heading);
-                                                                                                                                                scalar reverse ($heading);
+                                                                                                                                                my $backwards_heading = reverse ($ARG);
+                                                                                                                                                chop $backwards_heading;
                                                                                                                                             }
                                                                                                                                             (
                                                                                                                                                 $self->language->localise('shoutbox.field_error_heading'),
                                                                                                                                             )
                                                                                                                                         ),
+                                                                                            'ERROR-HEADING-REMAINING-CHARACTERS'    =>  join('',
+                                                                                                                                            map {
+                                                                                                                                                my  $string =   $ARG;
+                                                                                                                                                $string     =~  s/ /$non_breaking_space/ig;
+                                                                                                                                                $string;
+                                                                                                                                            }
+                                                                                                                                            (
+                                                                                                                                                encode_entities(
+                                                                                                                                                    join(
+                                                                                                                                                        '',
+                                                                                                                                                        map {
+                                                                                                                                                            my $backwards_heading = reverse ($ARG);
+                                                                                                                                                            chop ($backwards_heading);
+                                                                                                                                                            scalar reverse ($backwards_heading);
+                                                                                                                                                        }
+                                                                                                                                                        (
+                                                                                                                                                            $self->language->localise('shoutbox.field_error_heading'),
+                                                                                                                                                        )
+                                                                                                                                                    ),
+                                                                                                                                                ),
+                                                                                                                                            ),
+                                                                                                                                        ),
                                                                                             'SHOUT FIELD'                           =>  {
                                                                                                 @STANDARD_FIELD_VALUES,
-                                                                                                ERROR                               =>  $self->stash->{shout}->{errors}-{$field}, # already html_safe via FormData.pm
+                                                                                                ERROR                               =>  $self->stash('shout')->{errors}->{"$field"}, # already html_safe via FormData.pm
                                                                                             },
                                                                                         ):
                                             @STANDARD_FIELD_VALUES,
@@ -65,7 +80,9 @@ method homepage {
     
     }; # end of for @shoutbox_field_order
 
-    my  $shoutbox_field_layouts =   {@shoutbox_field_order};
+    #$self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
+
+    my  $shoutbox_field_layouts =   {@shoutbox_field_layouts};
     my  $layout_data_structure      =   {
         TEMPLATE                    =>  'main.htm',
         #SCRIPTS                     =>  q{},
