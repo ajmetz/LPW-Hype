@@ -94,7 +94,7 @@ Tokens: {
             =>  'You should be able to easily edit this [_1] field, to ensure there are no potentially problematic words or characters.',
 
             'shoutbox.error.unsafe_word'
-            =>  'We found the word "[_2]" in this [_1] field, and the message should send if you can try again without this particular word. Many thanks!',
+            =>  'We found the word "[_2]" in this [_1] field, and the message should send if you can try again rephrasing or removing this particular word. Many thanks!',
 
             'shoutbox.error.no_at_sign'
             =>
@@ -197,7 +197,9 @@ Phrases: {
             'We use this regular expression for matching:'      =>  'We use this regular expression for matching:',
             'Which should match...'                             =>  'Which should match...',
 
-            
+            'This is the result of our match as a captured unsafe word or empty string:'
+            =>  'This is the result of our match as a captured unsafe word or empty string:',
+
             # LPW::Hype::Controller::Root
             'What does our stash look like?'                    =>  'What does our stash look like?',
         );

@@ -81,11 +81,10 @@ method get_specific_unsafe_word ($string, $unsafe_words) {
                                                         $unsafe_word_regex_string # Match any unsafe words in this grouping
                                                     )                               # Close capturing group
                                                 /ix;
-    $self->log_debug('This is the result of our match as a boolean...')->log_dump_values($matches_and_captures_unsafe_word);
 
     my  $result =   ($string =~ $matches_and_captures_unsafe_word)?   $+{'unsafe_word'}:
                     q{};
-    $self->log_debug('...and as a captured unsafe word or empty string:')->log_dump_values($result);
+    $self->log_debug('This is the result of our match as a captured unsafe word or empty string:')->log_dump_values($result);
     return  $result;
 }
 
@@ -108,11 +107,11 @@ method process_shout {
                                                                                                                                                 $self->language->localise("shoutbox.$field.descriptive_field_name")
                                                                                                                                             ):
                                                         $self->validation->topic($field)->unlike($matches_unsafe_words)->has_error($field)?        $self->language->localise_html_safe(
-                                                                                                                                                $self->get_specific_unsafe_word($self->validation->param($field),$unsafe_words)?
+                                                                                                                                                $self->get_specific_unsafe_word($self->param($field),$unsafe_words)?
                                                                                                                                                     (
                                                                                                                                                         'shoutbox.error.unsafe_word',
                                                                                                                                                         $self->language->localise("shoutbox.$field.descriptive_field_name"),
-                                                                                                                                                        $self->get_specific_unsafe_word($self->validation->param($field),$unsafe_words),
+                                                                                                                                                        $self->get_specific_unsafe_word($self->param($field),$unsafe_words),
                                                                                                                                                     ):
                                                                                                                                                     (
                                                                                                                                                         'shoutbox.error.unknown_unsafe_word',
