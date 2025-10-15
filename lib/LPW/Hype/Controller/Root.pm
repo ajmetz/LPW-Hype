@@ -62,6 +62,7 @@ method homepage {
                         'SHOUTBOX REFRESH TEXT'     =>  $self->language->localise_html_safe('shoutbox.refresh'),
                         'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
                         'CSRF TOKEN'                =>  $self->csrf_token,
+                        ''=>'',
                         'NAME LABEL'                =>  $self->language->localise_html_safe('shoutbox.name_label'),
                         'MESSAGE LABEL'             =>  $self->language->localise_html_safe('shoutbox.message_label'),
                         'NAME ERROR'

@@ -62,12 +62,19 @@ Tokens: {
 
             # LPW::Hype::Controller::Root
 
-            '2024_event.box_heading'    =>  '2024\'s Event',
-            'shoutbox.refresh'          =>  'Refresh / View New Messages',
-            'shoutbox.logo_alt_text'    =>  'SHOUT BOX LOGO',
-            'shoutbox.loading_message'  =>  'Shout out messages should load here shortly...',
-            'shoutbox.name_label'       =>  'Your Name:',
-            'shoutbox.message_label'    =>  'Your Message:',
+            '2024_event.box_heading'                    =>  '2024\'s Event',
+
+            'shoutbox.error.empty_or_zero_length'       =>  'To successfully submit your shout message, you\'ll need to ensure this [_1] field contains valid text.',
+
+            'shoutbox.loading_message'                  =>  'Shout out messages should load here shortly...',
+            'shoutbox.logo_alt_text'                    =>  'SHOUT BOX LOGO',
+            'shoutbox.message.descriptive_field_name'   =>  'Message',
+            'shoutbox.message_label'                    =>  'Your Message:',
+            'shoutbox.name.descriptive_field_name'      =>  'Name',
+            'shoutbox.name_label'                       =>  'Your Name:',
+
+            'shoutbox.refresh'                          =>  'Refresh / View New Messages',
+
 
         );
     } #short

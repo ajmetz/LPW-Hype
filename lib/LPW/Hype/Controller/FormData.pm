@@ -44,33 +44,73 @@ method process_according_to_type {
 
 }
 
+method $arrayref_to_regex_OR_string    ($list) {
+
+    return  join '|',
+            map {
+                $ARG?   quotemeta(scalar $ARG):
+                ()
+            }
+            $list->@*; # What if a list item is a qr// string - or specifically not a scalar? TODO: Check for this and report an error/exception? For now we use it in scalar context to fail silently.
+
+}
+
+=pod
+
+=over
+
+item get_specific_unsafe_word($string_to_check, $arrayref_of_values_to_check_for);
+
+Takes a string to check, and an arrayref of values to check for,
+and returns the part of the string that matched the values to check for.
+Values expected to be strings and not regexes themselves.
+
+=back
+
+=cut
+
+method $get_specific_unsafe_word ($string, $unsafe_words) {
+    my  $unsafe_word_regex_string           =   $arrayref_to_regex_OR_string($unsafe_words);
+    my  $matches_and_captures_unsafe_word   =   qr/
+                                                    (?<unsafe_word>                 # Start named capturing grouping
+                                                        ($unsafe_word_regex_string) # Match any unsafe words in this subgrouping
+                                                    )                               # Close capturing group
+                                                /ix;
+    
+    return  ($string =~ $matches_and_captures_unsafe_word)?   $+{unsafe_word}:
+            q{};
+}
+
+
+
 method process_shout {
 
     $self->log_trace('Processing shout');
 
-    my  $unsafe_words               =   qw(
+    my  $unsafe_words               =   [qw(
                                             textarea
-                                        );
-    my  $unsafe_words_regex_string  =   join '|',
-                                        map {
-                                            $ARG?   quotemeta($ARG):
-                                            ()
-                                        }
-                                        $unsafe_words;
+                                        )];
+    my  $unsafe_words_regex_string  =   arrayref_to_regex_OR_string($unsafe_words);
     my  $no_unsafe_words            =   qr/[^($unsafe_words_regex_string)]/i;
+    my  $no_at_sign                 =   qr/[^@]/i;
 
-    $self->stash(
-        'valid_shout'   =>  $self->validation->required('name', 'not_empty')->size(1,undef)->like($no_unsafe_words)->is_valid
-                            &&
-                            $self->validation->required('message','not_empty')->size(1,undef)->like($no_unsafe_words)->is_valid? $self->validation->output:
-                            undef,
-        'shout_errors'  =>  {
-                                name    =>  $self->validation->has_error('name')?   'There was an error':
-                                            'There was no error',
-                                message =>  $self->validation->has_error('name')?   'There was an error':
-                                            'There was no error',
-                            },
-    );
+    for my $field ('name', 'message') {
+        $self->stash->{shout}->{errors}->{"$field"} =   $self->validation->required($field, 'not_empty')->size(1,undef)->has_error? $self->language->localise_html_safe(
+                                                                                                                                        'shoutbox.error.empty_or_zero_length',
+                                                                                                                                        $self->language->localise("shoutbox.$field.descriptive_field_name")
+                                                                                                                                    ):
+                                                        $self->validation->topic($field)->like($no_unsafe_words)->has_error?        $self->language->localise_html_safe(
+                                                                                                                                        $get_specific_unsafe_word($self->validation->param($field),$unsafe_words)?
+                                                                                                                                            (
+                                                                                                                                                'shoutbox.error.unsafe_word',
+                                                                                                                                                $get_specific_unsafe_word($self->validation->param($field),$unsafe_words),
+                                                                                                                                            ):
+                                                                                                                                            'shoutbox.error.unknown_unsafe_word',
+                                                                                                                                    ):
+                                                        $self->validation->topic($field)->like($no_at_sign)->has_error?             $self->language->localise_html_safe('shoutbox.error.no_at_sign'):
+                                                        undef;
+    };
+
     return $self;
 }
 
