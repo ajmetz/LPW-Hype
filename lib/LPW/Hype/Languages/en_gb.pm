@@ -176,25 +176,30 @@ Phrases: {
             # Nothing yet.
 
             # LPW::Hype::Controller::FormData
-            'Checking form_type.'               =>  'Checking form_type.',
-            'Condition is false.'               =>  'Condition is false.',
-            'Condition is true.'                =>  'Condition is true.',
-            'CSRF input is:'                    =>  'CSRF input is:',
-            'Is our condition true or false?'   =>  'Is our condition true or false?',
-            'Not valid form type'               =>  'Not valid form type',
-            'Not valid form type.'              =>  'Not valid form type.',
-            'Processing shout'                  =>  'Processing shout',
-            'Protection is valid.'              =>  'Protection is valid.',
-            'Valid form type'                   =>  'Valid form type',
-            'Valid form type.'                  =>  'Valid form type.',
-            'We have data.'                     =>  'We have data.',
-            'We have data and a valid csrf.'    =>  'We have data and a valid csrf.',
-            'We have protection.'               =>  'We have protection.',
-            'Which should match...'             =>  'Which should match...',
+            '...and as a captured unsafe word or empty string:' =>  '...and as a captured unsafe word or empty string:',
+            'Checking form_type.'                               =>  'Checking form_type.',
+            'Condition is false.'                               =>  'Condition is false.',
+            'Condition is true.'                                =>  'Condition is true.',
+            'CSRF input is:'                                    =>  'CSRF input is:',
+            'Is our condition true or false?'                   =>  'Is our condition true or false?',
+            'Not valid form type'                               =>  'Not valid form type',
+            'Not valid form type.'                              =>  'Not valid form type.',
+            'Our string to check is as follows:'                =>  'Our string to check is as follows:',
+            'Our use of words to check for are:'                =>  'Our use of words to check for are:',
+            'Processing shout'                                  =>  'Processing shout',
+            'Protection is valid.'                              =>  'Protection is valid.',
+            'This is the result of our match as a boolean...'   =>  'This is the result of our match as a boolean...',
+            'Valid form type'                                   =>  'Valid form type',
+            'Valid form type.'                                  =>  'Valid form type.',
+            'We have data.'                                     =>  'We have data.',
+            'We have data and a valid csrf.'                    =>  'We have data and a valid csrf.',
+            'We have protection.'                               =>  'We have protection.',
+            'We use this regular expression for matching:'      =>  'We use this regular expression for matching:',
+            'Which should match...'                             =>  'Which should match...',
 
             
             # LPW::Hype::Controller::Root
-            'What does our stash look like?'    =>  'What does our stash look like?',
+            'What does our stash look like?'                    =>  'What does our stash look like?',
         );
     } #debug
 

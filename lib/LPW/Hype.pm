@@ -31,7 +31,8 @@ method configure_the_application {
     return $self    ->  exclude_author_commands
                     ->  setup_customisation_of_mojolicious_file_paths
                     ->  setup_template_nest
-                    ->  setup_shoutbox; # returns self
+                    ->  setup_shoutbox
+                    ->  configure_validation; # returns self
 
 }
 
@@ -118,6 +119,11 @@ method setup_shoutbox {
 
     return $self;
 
+}
+
+method configure_validation {
+    $self->validation->validator->add_check(unlike => sub { $_[2] =~ $_[3] });
+    return $self;
 }
 
 __END__
