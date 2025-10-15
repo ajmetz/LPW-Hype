@@ -2,7 +2,7 @@ use     Object::Pad v0.821;
 
 class   LPW::Hype::Plugin::Routes;
 
-use     LPW::Hype::Boilerplate::Code;
+use     LPW::Boilerplate::Code;
 inherit Mojolicious::Plugin;
 
 method register ($app, $conf) {

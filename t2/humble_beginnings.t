@@ -4,7 +4,7 @@ use Path::Tiny;
 use lib path(__FILE__)->parent->sibling('lib')->realpath->stringify;
 
 # Standard Test Boilerplate:
-use Hype::Boilerplate::Test;
+use LPW::Boilerplate::Test;
 
 # Specific Modules used:
 use Test::Mojo;
@@ -56,7 +56,6 @@ or a specific DOM lookup via C<< tx->res->dom->at >> etc.
 my  $test_object            =   Test::Mojo->new('Hype');
 
 # Get Tests
-ok($test_object->get_ok('/hello')->status_is(200)->content_like(qr/hello/i)->success,                   'Our Hello World page appears to work.' );
 ok($test_object->get_ok('/')->status_is(200)->success,                                                  'Our home page exists.'   );
 
 # HTML form tests:

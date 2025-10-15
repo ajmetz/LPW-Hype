@@ -2,7 +2,7 @@ use     Object::Pad v0.821;
 
 class   LPW::Hype::Languages::en_gb;
 
-use     LPW::Hype::Boilerplate::Code;
+use     LPW::Boilerplate::Code;
 
 inherit LPW::Hype::Languages;
 
@@ -64,6 +64,8 @@ Tokens: {
 
             '2024_event.box_heading'    =>  '2024\'s Event',
             'shoutbox.refresh'          =>  'Refresh / View New Messages',
+            
+            # LPW::Hype::Controller::Root
 
         );
     } #short

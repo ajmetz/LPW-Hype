@@ -2,7 +2,7 @@ use     Object::Pad v0.821;
 
 class   LPW::Hype 1.00;
 
-use     LPW::Hype::Boilerplate::Code;
+use     LPW::Boilerplate::Code;
 inherit Mojolicious;
 
 # This method will run once at server start
