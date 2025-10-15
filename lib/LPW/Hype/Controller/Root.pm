@@ -10,6 +10,55 @@ use     HTML::Entities;
 
 method homepage {
 
+    # Initial Values:
+    my  @shoutbox_field_order                       =   qw(
+                                                            name,
+                                                            message,
+                                                        );
+    my  $shoutbox_field_layouts                     =   {
+                        TEMPLATE                    =>  'shoutbox/shoutbox.htm',
+                        'SHOUT-BOX-LOGO-ALT-TEXT'   =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
+                        'SHOUTBOX REFRESH TEXT'     =>  $self->language->localise_html_safe('shoutbox.refresh'),
+                        'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
+                        'CSRF TOKEN'                =>  $self->csrf_token,
+    };
+
+    for my $field (@shoutbox_field_order) {
+    
+        my  @STANDARD_FIELD_VALUES  =   (
+            TEMPLATE                =>  'shoutbox/'.$field.'_field.htm',
+            LABEL                   =>  $self->language->localise('shoutbox.'.$field.'_label'),
+            VALUE                   =>  encode_entities($self->validation->param($field)),
+            ERROR                   =>  q{}, # Blank by default - can be overidden.
+        );
+    
+        push $shoutbox_field_layouts->%*, (
+            uc($field).' FIELD'     =>  $self->stash->{shout}->{errors}-{$field}?   {
+                                                                                        TEMPLATE                            =>  'shoutbox/field_error.htm',
+                                                                                        ERROR-HEADING-INITIAL-CHARACTER     =>  encode_entities(
+                                                                                                                                    chop (
+                                                                                                                                        reverse $self->localise('shoutbox.field_error_heading')
+                                                                                                                                    )
+                                                                                                                                ),
+                                                                                        ERROR-HEADING-REMAINING-CHARACTERS  =>  encode_entities(
+                                                                                                                                    join '',
+                                                                                                                                    map {
+                                                                                                                                        my $heading = $ARG;
+                                                                                                                                        chop reverse $heading;
+                                                                                                                                        reverse $heading;
+                                                                                                                                    }
+                                                                                                                                    ($self->language->localise('shoutbox.field_error_heading')
+                                                                                                                                ),
+                                                                                        'SHOUT FIELD'                       =>  {
+                                                                                            @STANDARD_FIELD_VALUES,
+                                                                                            ERROR                           =>  $self->stash->{shout}->{errors}-{$field}, # already html_safe via FormData.pm
+                                                                                        },
+                                                                                    }:
+                                        {@STANDARD_FIELD_VALUES},
+        );
+    
+    }; # end of for @shoutbox_field_order
+
     # Initial values:
     my  $layout_data_structure      =   {
         TEMPLATE                    =>  'main.htm',
@@ -57,21 +106,7 @@ method homepage {
                 },
                 'BOX CONTENT'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_content.htm', # Add validation for dynamic path perhaps?
-                    'SHOUTBOX'      =>  {
-                        TEMPLATE    =>  'shoutbox/shoutbox.htm',
-                        'SHOUT-BOX-LOGO-ALT-TEXT'   =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
-                        'SHOUTBOX REFRESH TEXT'     =>  $self->language->localise_html_safe('shoutbox.refresh'),
-                        'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
-                        'CSRF TOKEN'                =>  $self->csrf_token,
-
-
-                        'NAME LABEL'                =>  $self->language->localise_html_safe('shoutbox.name_label'),
-                        'MESSAGE LABEL'             =>  $self->language->localise_html_safe('shoutbox.message_label'),
-                        'NAME ERROR'
-                                    =>  reftype($self->stash('shout_errors')) eq 'HASH'? $self->stash('shout_errors')->{name} // q{}:q{},
-                        'MESSAGE ERROR'
-                                    =>  reftype($self->stash('shout_errors')) eq 'HASH'? $self->stash('shout_errors')->{message} // q{}:q{},
-                    },
+                    'SHOUTBOX'      =>  $shoutbox_field_layouts,
                 },
             },
 
@@ -197,27 +232,145 @@ for my $field ($shoutbox_field_order) {
 
 ======
 
+
+my  @shoutbox_field_layouts =   ();
 for my $field ($shoutbox_field_order) {
 
-    uc($field).' FIELD'  => $self->stash->{shout}->{errors}-{$field}? {
-                                TEMPLATE                            =>  'shoutbox/field_error.htm',
-                                ERROR-HEADING-INITIAL-CHARACTER     =>  encode_entities(
-                                                                            chop (
-                                                                                reverse $self->localise('shoutbox.field_error_heading')
-                                                                            )
-                                                                        ),
-                                ERROR-HEADING-REMAINING-CHARACTERS  =>  encode_entities(
-                                                                            join '',
-                                                                            map {
-                                                                                my $heading = $ARG;
-                                                                                chop reverse $heading;
-                                                                                reverse $heading;
-                                                                            }
-                                                                            ($self->localise('shoutbox.field_error_heading')
-                                                                        ),
+    push @shoutbox_field_layouts,
 
-                                    'SHOUT FIELD'   =>  {
-                                        TEMPLATE    =>  'shoutbox/'.$field.'_field.htm',
-                                        
-                                    },
+    (
+        uc($field).' FIELD' =>  $self->stash->{shout}->{errors}-{$field}?   {
+                                                                                TEMPLATE                            =>  'shoutbox/field_error.htm',
+                                                                                ERROR-HEADING-INITIAL-CHARACTER     =>  encode_entities(
+                                                                                                                            chop (
+                                                                                                                                reverse $self->localise('shoutbox.field_error_heading')
+                                                                                                                            )
+                                                                                                                        ),
+                                                                                ERROR-HEADING-REMAINING-CHARACTERS  =>  encode_entities(
+                                                                                                                            join '',
+                                                                                                                            map {
+                                                                                                                                my $heading = $ARG;
+                                                                                                                                chop reverse $heading;
+                                                                                                                                reverse $heading;
+                                                                                                                            }
+                                                                                                                            ($self->language->localise('shoutbox.field_error_heading')
+                                                                                                                        ),
+                                                
+                                                                                    'SHOUT FIELD'   =>  {
+                                                                                        TEMPLATE    =>  'shoutbox/'.$field.'_field.htm',
+                                                                                        LABEL       =>  $self->language->localise('shoutbox.'.$field.'_label'),
+                                                                                        VALUE       =>  encode_entities($self->validation->param($field)),
+                                                                                        ERROR       =>  $self->stash->{shout}->{errors}-{$field}, # already html_safe via FormData.pm
+                                                                                    },
+                                                                            }:
+                                {
+                                    TEMPLATE    =>  'shoutbox/'.$field.'_field.htm',
+                                    LABEL       =>  $self->language->localise('shoutbox.'.$field.'_label'),
+                                    VALUE       =>  encode_entities($self->validation->param($field)),
+                                    ERROR       =>  q{}, # blank out.
                                 },
+    )
+
+}
+
+=========
+
+
+for my $field ($shoutbox_field_order) {
+
+    my  @error_template =   $self->stash->{shout}->{errors}-{$field}?   (
+                                                                                TEMPLATE                            =>  'shoutbox/field_error.htm',
+                                                                                ERROR-HEADING-INITIAL-CHARACTER     =>  encode_entities(
+                                                                                                                            chop (
+                                                                                                                                reverse $self->localise('shoutbox.field_error_heading')
+                                                                                                                            )
+                                                                                                                        ),
+                                                                                ERROR-HEADING-REMAINING-CHARACTERS  =>  encode_entities(
+                                                                                                                            join '',
+                                                                                                                            map {
+                                                                                                                                my $heading = $ARG;
+                                                                                                                                chop reverse $heading;
+                                                                                                                                reverse $heading;
+                                                                                                                            }
+                                                                                                                            ($self->language->localise('shoutbox.field_error_heading')
+                                                                                                                        ),
+                                                
+                                                                                    'SHOUT FIELD'
+    
+    push @shoutbox_field_layouts,
+
+    (
+        uc($field).' FIELD' =>  $self->stash->{shout}->{errors}-{$field}?   {
+                                                                                TEMPLATE                            =>  'shoutbox/field_error.htm',
+                                                                                ERROR-HEADING-INITIAL-CHARACTER     =>  encode_entities(
+                                                                                                                            chop (
+                                                                                                                                reverse $self->localise('shoutbox.field_error_heading')
+                                                                                                                            )
+                                                                                                                        ),
+                                                                                ERROR-HEADING-REMAINING-CHARACTERS  =>  encode_entities(
+                                                                                                                            join '',
+                                                                                                                            map {
+                                                                                                                                my $heading = $ARG;
+                                                                                                                                chop reverse $heading;
+                                                                                                                                reverse $heading;
+                                                                                                                            }
+                                                                                                                            ($self->language->localise('shoutbox.field_error_heading')
+                                                                                                                        ),
+                                                
+                                                                                    'SHOUT FIELD'   =>  {
+                                                                                        TEMPLATE    =>  'shoutbox/'.$field.'_field.htm',
+                                                                                        LABEL       =>  $self->language->localise('shoutbox.'.$field.'_label'),
+                                                                                        VALUE       =>  encode_entities($self->validation->param($field)),
+                                                                                        ERROR       =>  $self->stash->{shout}->{errors}-{$field}, # already html_safe via FormData.pm
+                                                                                    },
+                                                                            }:
+                                {
+                                    TEMPLATE    =>  'shoutbox/'.$field.'_field.htm',
+                                    LABEL       =>  $self->language->localise('shoutbox.'.$field.'_label'),
+                                    VALUE       =>  encode_entities($self->validation->param($field)),
+                                    ERROR       =>  q{}, # blank out.
+                                },
+    )
+
+}
+
+==============
+
+my  @shoutbox_field_layouts =   ();
+for my $field ($shoutbox_field_order) {
+
+    my  @STANDARD_FIELD_VALUES  =   (
+        TEMPLATE    =>  'shoutbox/'.$field.'_field.htm',
+        LABEL       =>  $self->language->localise('shoutbox.'.$field.'_label'),
+        VALUE       =>  encode_entities($self->validation->param($field)),
+        ERROR       =>  q{}, # Blank by default - can be overidden.
+    );
+
+    push @shoutbox_field_layouts,
+
+    (
+        uc($field).' FIELD' =>  $self->stash->{shout}->{errors}-{$field}?   {
+                                                                                TEMPLATE                            =>  'shoutbox/field_error.htm',
+                                                                                ERROR-HEADING-INITIAL-CHARACTER     =>  encode_entities(
+                                                                                                                            chop (
+                                                                                                                                reverse $self->localise('shoutbox.field_error_heading')
+                                                                                                                            )
+                                                                                                                        ),
+                                                                                ERROR-HEADING-REMAINING-CHARACTERS  =>  encode_entities(
+                                                                                                                            join '',
+                                                                                                                            map {
+                                                                                                                                my $heading = $ARG;
+                                                                                                                                chop reverse $heading;
+                                                                                                                                reverse $heading;
+                                                                                                                            }
+                                                                                                                            ($self->language->localise('shoutbox.field_error_heading')
+                                                                                                                        ),
+                                                                                'SHOUT FIELD'                       =>  {
+                                                                                    @STANDARD_FIELD_VALUES,
+                                                                                    ERROR       =>  $self->stash->{shout}->{errors}-{$field}, # already html_safe via FormData.pm
+                                                                                },
+                                                                            }:
+                                {@STANDARD_FIELD_VALUES},
+    )
+
+}
