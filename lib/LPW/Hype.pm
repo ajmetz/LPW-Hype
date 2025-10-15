@@ -30,7 +30,8 @@ method configure_the_application {
 
     return $self    ->  exclude_author_commands
                     ->  setup_customisation_of_mojolicious_file_paths
-                    ->  setup_template_nest; # returns $self
+                    ->  setup_template_nest;
+                    ->  setup_shoutbox; # returns self
 
 }
 
@@ -96,6 +97,22 @@ method setup_template_nest {
                                         # so I've decided to keep this off.
 
         ],
+
+    );
+
+    return $self;
+
+}
+
+method setup_shoutbox {
+
+    $self->defaults(
+
+        # Store Template::Nest setup data in the stash:
+        shout           =>  {
+            errors      =>  {},
+            valid       =>  {},
+        };
 
     );
 
