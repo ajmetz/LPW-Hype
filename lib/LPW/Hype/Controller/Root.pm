@@ -57,11 +57,13 @@ method homepage {
                 'BOX CONTENT'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_content.htm', # Add validation for dynamic path perhaps?
                     'SHOUTBOX'      =>  {
-                        TEMPLATE    =>  'shoutbox.htm',
-                        'SHOUTBOX REFRESH TEXT'
-                                    =>  $self->language->localise_html_safe('shoutbox.refresh'),
-                        'CSRF TOKEN'
-                                    =>  $self->csrf_token,
+                        TEMPLATE    =>  'shoutbox/shoutbox.htm',
+                        'SHOUT-BOX-LOGO-ALT-TEXT'   =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
+                        'SHOUTBOX REFRESH TEXT'     =>  $self->language->localise_html_safe('shoutbox.refresh'),
+                        'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
+                        'CSRF TOKEN'                =>  $self->csrf_token,
+                        'NAME LABEL'                =>  $self->language->localise_html_safe('shoutbox.name_label'),
+                        'MESSAGE LABEL'             =>  $self->language->localise_html_safe('shoutbox.message_label'),
                         'NAME ERROR'
                                     =>  reftype($self->stash('shout_errors')) eq 'HASH'? $self->stash('shout_errors')->{name} // q{}:q{},
                         'MESSAGE ERROR'

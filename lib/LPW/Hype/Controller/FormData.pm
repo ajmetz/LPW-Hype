@@ -27,7 +27,7 @@ method process_according_to_type {
 
     $self->log_trace('We have data and a valid csrf.');
 
-    my  @supported_form_types       =   ('shout_message',);
+    my  @supported_form_types       =   ('shout',);
     my  $valid_form_type            =   $self->validation->required('form_type')->in(@supported_form_types)->is_valid? $self->validation->output->{'form_type'}:
                                         undef;
 
@@ -39,14 +39,26 @@ method process_according_to_type {
     # so only one form type will be processed per request,
     # in the order of the ternary questions...
 
-    return ($valid_form_type eq 'shout_message')? $self->process_shout_message:
+    return ($valid_form_type eq 'shout')? $self->process_shout:
     $self;
 
 }
 
-method process_shout_message {
+method process_shout {
+
     $self->log_trace('Processing shout');
-    my  $no_unsafe_words    =   qr/[^(textarea)]/i;
+
+    my  $unsafe_words               =   qw(
+                                            textarea
+                                        );
+    my  $unsafe_words_regex_string  =   join '|',
+                                        map {
+                                            $ARG?   quotemeta($ARG):
+                                            ()
+                                        }
+                                        $unsafe_words;
+    my  $no_unsafe_words            =   qr/[^($unsafe_words_regex_string)]/i;
+
     $self->stash(
         'valid_shout'   =>  $self->validation->required('name', 'not_empty')->size(1,undef)->like($no_unsafe_words)->is_valid
                             &&

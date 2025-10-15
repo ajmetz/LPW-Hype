@@ -64,8 +64,10 @@ Tokens: {
 
             '2024_event.box_heading'    =>  '2024\'s Event',
             'shoutbox.refresh'          =>  'Refresh / View New Messages',
-            
-            # LPW::Hype::Controller::Root
+            'shoutbox.logo_alt_text'    =>  'SHOUT BOX LOGO',
+            'shoutbox.loading_message'  =>  'Shout out messages should load here shortly...',
+            'shoutbox.name_label'       =>  'Your Name:',
+            'shoutbox.message_label'    =>  'Your Message:',
 
         );
     } #short
