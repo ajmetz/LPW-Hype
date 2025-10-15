@@ -6,6 +6,7 @@ inherit Mojolicious::Controller;
 
 use     LPW::Boilerplate::Code;
 use     Template::Nest; # Personal version, patched with "use open ':std', ':encoding(UTF-8)';" to enable utf-8 support.
+use     HTML::Entities;
 
 method homepage {
 
@@ -62,7 +63,8 @@ method homepage {
                         'SHOUTBOX REFRESH TEXT'     =>  $self->language->localise_html_safe('shoutbox.refresh'),
                         'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
                         'CSRF TOKEN'                =>  $self->csrf_token,
-                        ''=>'',
+
+
                         'NAME LABEL'                =>  $self->language->localise_html_safe('shoutbox.name_label'),
                         'MESSAGE LABEL'             =>  $self->language->localise_html_safe('shoutbox.message_label'),
                         'NAME ERROR'
@@ -133,6 +135,8 @@ method sponsorship {
 
 }
 
+
+
 __END__
 
     # Initial values:
@@ -146,3 +150,34 @@ __END__
             },
         },
     };
+
+
+Differences for fields:
+
+Does name have an error message?
+If so - name field = {
+    TEMPLATE    =>  fielderror
+
+
+So it would be...
+
+    NAME FIELD  =>  $self->stash->{shout}->{errors}-{name}? {
+                                                                TEMPLATE        =>  'shoutbox/field_error.htm',
+                                                                ERROR-HEADING-INITIAL-CHARACTER     =>  encode_entities(
+                                                                                                            chop (
+                                                                                                                reverse $self->localise('shoutbox.field_error_heading')
+                                                                                                            )
+                                                                                                        ),
+                                                                ERROR-HEADING-REMAINING-CHARACTERS  =>  encode_entities(
+                                                                                                            join '',
+                                                                                                            map {
+                                                                                                                my $heading = $ARG;
+                                                                                                                chop reverse $heading;
+                                                                                                                reverse $heading;
+                                                                                                            }
+                                                                                                            ($self->localise('shoutbox.field_error_heading')
+                                                                                                        ),
+                                                                'SHOUT FIELD'   =>  {
+                                                                    TEMPLATE    =>  'shoutbox/name_field.htm',
+                                                                },
+                                                            },
