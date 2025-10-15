@@ -92,7 +92,7 @@ method process_shout {
                                         )];
     my  $unsafe_words_regex_string  =   $self->arrayref_to_regex_OR_string($unsafe_words);
     my  $no_unsafe_words            =   qr/[^($unsafe_words_regex_string)]/i;
-    my  $no_at_sign                 =   qr/[^@]/i;
+    my  $no_at_sign                 =   qr/.*[^\Q@\E].*/is;
 
     for my $field ('name', 'message') {
         $self->stash('shout')->{errors}->{"$field"} =   $self->validation->required($field, 'not_empty')->size(1,undef)->has_error($field)? $self->language->localise_html_safe(

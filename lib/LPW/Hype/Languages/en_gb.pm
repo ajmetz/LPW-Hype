@@ -54,7 +54,8 @@ Tokens: {
     # so this is a purely text, and purely translation zone,
     # free of code and encodings,
     # unless using a translation function,
-    # or coding relevant to accurate translation.
+    # or otherwise implementing coding that is
+    # relevant to an accurate translation.
 
     Short: {
         @tokens_short = (
@@ -64,7 +65,7 @@ Tokens: {
 
             '2024_event.box_heading'                    =>  '2024\'s Event',
 
-            'shoutbox.error.empty_or_zero_length'       =>  'To successfully submit your shout message, you\'ll need to ensure this [_1] field contains valid text.',
+
             'shoutbox.field_error_heading'              =>  'CAN YOU TRY AGAIN?',
             'shoutbox.loading_message'                  =>  'Shout out messages should load here shortly...',
             'shoutbox.logo_alt_text'                    =>  'SHOUT BOX LOGO',
@@ -86,7 +87,20 @@ Tokens: {
 
             # LPW::Hype::Controller::Root
 
-            # Nothing yet.
+            'shoutbox.error.empty_or_zero_length'
+            =>  'To successfully submit your shout message, you\'ll need to ensure this [_1] field contains valid text.',            
+
+            'shoutbox.error.unknown_unsafe_word'
+            =>  'You should be able to easily edit this [_1] field, to ensure there are no potentially problematic words or characters.',
+
+            'shoutbox.error.unsafe_word'
+            =>  'We found the word "[_2]" in this [_1] field, and the message should send if you can try again without this particular word. Many thanks!',
+
+            'shoutbox.error.no_at_sign'
+            =>
+'To successfully submit your public message, you should consider removing the @ sign we found in this [_1] field.
+To protect your privacy, and the sharing of email addresses publically,
+we have chosen to disallow the inclusion of the @ symbol in public messages at present. Thank you for understanding.',
 
         );
     } #long
@@ -136,7 +150,8 @@ Phrases: {
     # so this is a purely text, and purely translation zone,
     # free of code and encodings,
     # unless using a translation function,
-    # or coding relevant to accurate translation.
+    # or otherwise implementing coding that is
+    # relevant to an accurate translation.
 
     Webapp: {
 
