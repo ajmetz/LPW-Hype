@@ -30,7 +30,7 @@ method configure_the_application {
 
     return $self    ->  exclude_author_commands
                     ->  setup_customisation_of_mojolicious_file_paths
-                    ->  setup_template_nest;
+                    ->  setup_template_nest
                     ->  setup_shoutbox; # returns self
 
 }
@@ -112,7 +112,7 @@ method setup_shoutbox {
         shout           =>  {
             errors      =>  {},
             valid       =>  {},
-        };
+        },
 
     );
 

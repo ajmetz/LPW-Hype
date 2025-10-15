@@ -53,7 +53,7 @@ or a specific DOM lookup via C<< tx->res->dom->at >> etc.
 
 =cut
 
-my  $test_object            =   Test::Mojo->new('Hype');
+my  $test_object            =   Test::Mojo->new('LPW::Hype');
 
 # Get Tests
 ok($test_object->get_ok('/')->status_is(200)->success,                                                  'Our home page exists.'   );
