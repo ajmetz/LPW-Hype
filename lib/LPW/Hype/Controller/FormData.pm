@@ -44,7 +44,7 @@ method process_according_to_type {
 
 }
 
-method $arrayref_to_regex_OR_string    ($list) {
+method arrayref_to_regex_OR_string    ($list) {
 
     return  join '|',
             map {
@@ -69,8 +69,8 @@ Values expected to be strings and not regexes themselves.
 
 =cut
 
-method $get_specific_unsafe_word ($string, $unsafe_words) {
-    my  $unsafe_word_regex_string           =   $arrayref_to_regex_OR_string($unsafe_words);
+method get_specific_unsafe_word ($string, $unsafe_words) {
+    my  $unsafe_word_regex_string           =   arrayref_to_regex_OR_string($unsafe_words);
     my  $matches_and_captures_unsafe_word   =   qr/
                                                     (?<unsafe_word>                 # Start named capturing grouping
                                                         ($unsafe_word_regex_string) # Match any unsafe words in this subgrouping
@@ -100,10 +100,10 @@ method process_shout {
                                                                                                                                         $self->language->localise("shoutbox.$field.descriptive_field_name")
                                                                                                                                     ):
                                                         $self->validation->topic($field)->like($no_unsafe_words)->has_error?        $self->language->localise_html_safe(
-                                                                                                                                        $get_specific_unsafe_word($self->validation->param($field),$unsafe_words)?
+                                                                                                                                        get_specific_unsafe_word($self->validation->param($field),$unsafe_words)?
                                                                                                                                             (
                                                                                                                                                 'shoutbox.error.unsafe_word',
-                                                                                                                                                $get_specific_unsafe_word($self->validation->param($field),$unsafe_words),
+                                                                                                                                                get_specific_unsafe_word($self->validation->param($field),$unsafe_words),
                                                                                                                                             ):
                                                                                                                                             'shoutbox.error.unknown_unsafe_word',
                                                                                                                                     ):
