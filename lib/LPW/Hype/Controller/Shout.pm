@@ -66,8 +66,8 @@ method shout {
     if ((defined $shouts) && $shout) { # Using "defined" as $shouts could be an empty string if the slurped file was empty.
         $self->log_trace('Determination made that we have both a new shout, and a string (that could be empty or full) representing past shouts, available to work with.');
         $self->stash('shout')->{backup}->touch->spew_utf8($shouts);
-        my  $updated_shouts =   $shout.$shouts; # Does it really need to be an array or arrayref? Can it not be a multiline string?
-        $self->stash('shout')->{filepath}->touch->spew_utf8($updated_shouts) if $updated_shouts; # Found our error - we original had slurp here instead of spew! Lol.
+        my  $updated_shouts =   $shout.$shouts; 
+        $self->stash('shout')->{filepath}->touch->spew_utf8($updated_shouts) if $updated_shouts;
         $self->log_trace('Attempted backup of previous shouts, and saving of new shouts.');
     }
     else {
