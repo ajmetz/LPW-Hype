@@ -123,7 +123,7 @@ method process_shout {
                                                                                                                                                                             $self->language->localise("shoutbox.$field.descriptive_field_name"),
                                                                                                                                                                         ):
                                                         undef;
-        $self->stash('shout')->{valid}->{"$field"}  =   $self->validation->topic($field)->is_valid? $self->validation->param($field):
+        $self->stash('shout')->{valid}->{"$field"}  =   $self->validation->topic($field)->is_valid? $self->validation->topic($field)->param:
                                                         undef;  # Does $self->validation->param($field) already default to undef if not valid!? We should test it at some point to see and learn.
                                                         
     };

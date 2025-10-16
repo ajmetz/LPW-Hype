@@ -17,10 +17,12 @@ method shout {
     # Premature exit...
     my  $prerequisites      =   $self->stash('shout')->{valid}->{name}
                                 && $self->stash('shout')->{valid}->{message}
-                                && $self->stash('shout')->{filepath}->is_file
-                                && $self->stash('shout')->{backup}->parent->is_dir;
+                                && $self->stash('shout')->{filepath}->realpath
+                                && $self->stash('shout')->{backup}->realpath;
 
     $self->log_trace('Prerequisite boolean used to decide premature exit is...')->log_dump_values($prerequisites);
+
+    #die 'That will do for now';
 
     return                      $self
                                 unless $prerequisites;
@@ -31,7 +33,8 @@ method shout {
     my  $shouts_line_limit  =   500;
 
     # Date and Time Values:
-    my  $time_piece_object  =   localtime->date_separator('/');
+    my  $time_piece_object  =   localtime;
+        $time_piece_object  ->  date_separator('/');
 
     my  $time_string        =   $time_piece_object->hour && $time_piece_object->min?    sprintf('%s:%s', $time_piece_object->hour, $time_piece_object->min):
                                 $self->language->localise('shout.time.unknown');
