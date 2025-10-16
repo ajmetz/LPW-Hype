@@ -36,7 +36,7 @@ method shout {
     my  $time_piece_object  =   localtime;
         $time_piece_object  ->  date_separator('/');
 
-    my  $time_string        =   $time_piece_object->hour && $time_piece_object->min?    sprintf('%s:%s', $time_piece_object->hour, $time_piece_object->min):
+    my  $time_string        =   $time_piece_object->hour && $time_piece_object->min?    sprintf('%01d:%01d', $time_piece_object->hour, $time_piece_object->min):
                                 $self->language->localise('shout.time.unknown');
 
     my  $date_string        =   $time_piece_object->dmy? $time_piece_object->dmy:
@@ -65,9 +65,9 @@ method shout {
     # Appending shout
     if ((defined $shouts) && $shout) { # Using "defined" as $shouts could be an empty string if the slurped file was empty.
         $self->log_trace('Determination made that we have both a new shout, and a string (that could be empty or full) representing past shouts, available to work with.');
-        $self->stash('shout')->{backup}->touch->spew_utf8(split /\n/, $shouts);
-        my  @updated_shouts =   split /\n/, $shout.$shouts; # Does it really need to be an array or arrayref? Can it not be a multiline string?
-        $self->stash('shout')->{filepath}->touch->spew_utf8(@updated_shouts) if scalar @updated_shouts; # Found our error - we original had slurp here instead of spew! Lol.
+        $self->stash('shout')->{backup}->touch->spew_utf8($shouts);
+        my  $updated_shouts =   $shout.$shouts; # Does it really need to be an array or arrayref? Can it not be a multiline string?
+        $self->stash('shout')->{filepath}->touch->spew_utf8($updated_shouts) if $updated_shouts; # Found our error - we original had slurp here instead of spew! Lol.
         $self->log_trace('Attempted backup of previous shouts, and saving of new shouts.');
     }
     else {

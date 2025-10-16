@@ -75,6 +75,9 @@ Tokens: {
             'shoutbox.name.descriptive_field_name'      =>  'Name',
             'shoutbox.name_label'                       =>  'Your Name:',
 
+            'shout.date.unknown'                        =>  'Unknown Date',
+            'shout.time.unknown'                        =>  'Unknown Time',
+
             'shoutbox.refresh'                          =>  'Refresh / View New Messages',
 
 
