@@ -22,6 +22,12 @@ method homepage {
                         'SHOUTBOX REFRESH TEXT'     =>  $self->language->localise_html_safe('shoutbox.refresh'),
                         'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
                         'CSRF TOKEN'                =>  $self->csrf_token,
+                        'SHOUTBOX LEGAL'            =>  {
+                            TEMPLATE                =>  'shoutbox/content/'.$self->language->language_tag().'/legal.htm', # Add validation for dynamic path perhaps?
+                        },
+                        'CONTENT-COMPLAINT'         =>  {
+                            TEMPLATE                =>  'shoutbox/content/'.$self->language->language_tag().'/content_complain.htm', # Add validation for dynamic path perhaps?
+                        },
     );
 
     for my $field (@shoutbox_field_order) {
@@ -193,7 +199,53 @@ method sponsorship {
 
 }
 
+method terms_of_service {
 
+    # Initial values:
+    my  $blank                      =   q{};
+    my  $layout_data_structure      =   {
+        TEMPLATE                    =>  'main.htm',
+        HEADER                      =>  {
+            TEMPLATE                =>  'header.htm',
+        },
+        CONTENT                     =>  {
+            TEMPLATE                =>  'content/'.$self->language->language_tag().'/terms/terms.htm',
+        },
+    };
+
+    # Processing:
+    my  $layout                     =   Template::Nest->new($self->stash->{layout_settings}->@*)->render($layout_data_structure);
+
+    # Output:
+    $self->render(
+        text                        =>  $layout,
+    );
+
+}
+
+method privacy_policy {
+
+    # Initial values:
+    my  $blank                      =   q{};
+    my  $layout_data_structure      =   {
+        TEMPLATE                    =>  'main.htm',
+        HEADER                      =>  {
+            TEMPLATE                =>  'header.htm',
+        },
+        CONTENT                     =>  {
+            TEMPLATE                =>  'content/'.$self->language->language_tag().'/privacy/privacy_policy.htm',
+        },
+    };
+
+    # Processing:
+    my  $layout                     =   Template::Nest->new($self->stash->{layout_settings}->@*)->render($layout_data_structure);
+
+    # Output:
+    $self->render(
+        text                        =>  $layout,
+    );
+
+}
 
 __END__
 

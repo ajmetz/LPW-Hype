@@ -12,15 +12,22 @@ method register ($app, $conf) {
 
     # Default at root:
     $routes
-        ->any('/')              ->to('Root#'.   'homepage'      ); # Dedicated entry for matching simply '/' (root)
+        ->any('/')                  ->to('Root#'.   'homepage'          ); # Dedicated entry for matching simply '/' (root)
 
     # Root.pm:
     $routes
-        ->any('/sponsorship')   ->to('Root#'.   'sponsorship'   );
+        ->any('/sponsorship')       ->to('Root#'.   'sponsorship'       );
+
+    $routes
+        ->any('/terms_of_service')  ->to('Root#'.   'terms_of_service'  );
+    $routes
+        ->any('/privacy_policy')    ->to('Root#'.   'privacy_policy'    );
+
+
 
     # Default / fall back for anything else (other than simply root)...
     $routes
-        ->any('/*rest_of_url')  ->to('Root#'.   'homepage'      ); # Does not match '/' and only matches '/some-stuff'
+        ->any('/*rest_of_url')      ->to('Root#'.   'homepage'          ); # Does not match '/' and only matches '/some-stuff'
 
     return;
 
