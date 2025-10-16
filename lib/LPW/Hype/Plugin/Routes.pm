@@ -8,7 +8,10 @@ inherit Mojolicious::Plugin;
 method register ($app, $conf) {
 
     # Pre-processing:
-    my  $routes =   $app->routes->under->to('FormData#check_for_language_change')->under->to('FormData#process_according_to_type');
+    my  $routes =   $app->routes
+                    ->under->to('FormData#check_for_language_change')
+                    ->under->to('FormData#process_according_to_type')
+                    ->under->to('Shout#shout');
 
     # Default at root:
     $routes
@@ -17,7 +20,6 @@ method register ($app, $conf) {
     # Root.pm:
     $routes
         ->any('/sponsorship')       ->to('Root#'.   'sponsorship'       );
-
     $routes
         ->any('/terms_of_service')  ->to('Root#'.   'terms_of_service'  );
     $routes

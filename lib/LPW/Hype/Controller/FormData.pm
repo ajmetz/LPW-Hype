@@ -102,26 +102,26 @@ method process_shout {
     my  $matches_at_sign            =   qr/\@/;
 
     for my $field ('name', 'message') {
-        $self->stash('shout')->{errors}->{"$field"} =   $self->validation->required($field, 'not_empty')->size(1,undef)->has_error($field)? $self->language->localise_html_safe(
-                                                                                                                                                'shoutbox.error.empty_or_zero_length',
-                                                                                                                                                $self->language->localise("shoutbox.$field.descriptive_field_name")
-                                                                                                                                            ):
-                                                        $self->validation->topic($field)->unlike($matches_unsafe_words)->has_error($field)?        $self->language->localise_html_safe(
-                                                                                                                                                $self->get_specific_unsafe_word($self->param($field),$unsafe_words)?
-                                                                                                                                                    (
-                                                                                                                                                        'shoutbox.error.unsafe_word',
-                                                                                                                                                        $self->language->localise("shoutbox.$field.descriptive_field_name"),
-                                                                                                                                                        $self->get_specific_unsafe_word($self->param($field),$unsafe_words),
-                                                                                                                                                    ):
-                                                                                                                                                    (
-                                                                                                                                                        'shoutbox.error.unknown_unsafe_word',
-                                                                                                                                                        $self->language->localise("shoutbox.$field.descriptive_field_name"),
-                                                                                                                                                    )
-                                                                                                                                            ):
-                                                        $self->validation->topic($field)->unlike($matches_at_sign)->has_error($field)?              $self->language->localise_html_safe(
-                                                                                                                                                        'shoutbox.error.no_at_sign',
-                                                                                                                                                        $self->language->localise("shoutbox.$field.descriptive_field_name"),
-                                                                                                                                                    ):
+        $self->stash('shout')->{errors}->{"$field"} =   $self->validation->required($field, 'not_empty')->required($field, 'trim')->size(1,undef)->has_error($field)?   $self->language->localise_html_safe(
+                                                                                                                                                                            'shoutbox.error.empty_or_zero_length',
+                                                                                                                                                                            $self->language->localise("shoutbox.$field.descriptive_field_name")
+                                                                                                                                                                        ):
+                                                        $self->validation->topic($field)->unlike($matches_unsafe_words)->has_error($field)?                             $self->language->localise_html_safe(
+                                                                                                                                                                            $self->get_specific_unsafe_word($self->param($field),$unsafe_words)?
+                                                                                                                                                                                (
+                                                                                                                                                                                    'shoutbox.error.unsafe_word',
+                                                                                                                                                                                    $self->language->localise("shoutbox.$field.descriptive_field_name"),
+                                                                                                                                                                                    $self->get_specific_unsafe_word($self->param($field),$unsafe_words),
+                                                                                                                                                                                ):
+                                                                                                                                                                                (
+                                                                                                                                                                                    'shoutbox.error.unknown_unsafe_word',
+                                                                                                                                                                                    $self->language->localise("shoutbox.$field.descriptive_field_name"),
+                                                                                                                                                                                )
+                                                                                                                                                                        ):
+                                                        $self->validation->topic($field)->unlike($matches_at_sign)->has_error($field)?                                  $self->language->localise_html_safe(
+                                                                                                                                                                            'shoutbox.error.no_at_sign',
+                                                                                                                                                                            $self->language->localise("shoutbox.$field.descriptive_field_name"),
+                                                                                                                                                                        ):
                                                         undef;
         $self->stash('shout')->{valid}->{"$field"}  =   $self->validation->topic($field)->is_valid? $self->validation->param($field):
                                                         undef;  # Does $self->validation->param($field) already default to undef if not valid!? We should test it at some point to see and learn.

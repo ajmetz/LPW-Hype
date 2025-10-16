@@ -16,6 +16,7 @@ my  @tokens_short;
 my  @tokens_long;
 my  @webapp_phrases;
 my  @debug_phrases;
+my  @trace_phrases;
 my  @verbose_phrases;
 my  @stdout_phrases;
 
@@ -88,16 +89,16 @@ Tokens: {
             # LPW::Hype::Controller::Root
 
             'shoutbox.error.empty_or_zero_length'
-            =>  'To successfully submit your shout message, you\'ll need to ensure this [_1] field contains valid text.',            
+                =>  'To successfully submit your shout message, you\'ll need to ensure this [_1] field contains valid text.',            
 
             'shoutbox.error.unknown_unsafe_word'
-            =>  'You should be able to easily edit this [_1] field, to ensure there are no potentially problematic words or characters.',
+                =>  'You should be able to easily edit this [_1] field, to ensure there are no potentially problematic words or characters.',
 
             'shoutbox.error.unsafe_word'
-            =>  'We found the word "[_2]" in this [_1] field, and the message should send if you can try again rephrasing or removing this particular word. Many thanks!',
+                =>  'We found the word "[_2]" in this [_1] field, and the message should send if you can try again rephrasing or removing this particular word. Many thanks!',
 
             'shoutbox.error.no_at_sign'
-            =>
+                =>
 'To successfully submit your public message, you should consider removing the @ sign we found in this [_1] field.
 To protect your privacy, and the sharing of email addresses publically,
 we have chosen to disallow the inclusion of the @ symbol in public messages at present. Thank you for understanding.',
@@ -198,12 +199,42 @@ Phrases: {
             'Which should match...'                             =>  'Which should match...',
 
             'This is the result of our match as a captured unsafe word or empty string:'
-            =>  'This is the result of our match as a captured unsafe word or empty string:',
+                =>  'This is the result of our match as a captured unsafe word or empty string:',
 
             # LPW::Hype::Controller::Root
             'What does our stash look like?'                    =>  'What does our stash look like?',
         );
+
     } #debug
+
+    Trace: {
+        @trace_phrases = (
+
+            # LPW::Hype::Controller::Shout
+    
+            'Entering shout method.'                            =>  'Entering shout method.',
+            'Leaving shout method.'                             =>  'Leaving shout method.',
+            'Our new shout is...'                               =>  'Our new shout is...',
+            'Our past shouts are...'                            =>  'Our past shouts are...',
+            'Our shout structure is...'                         =>  'Our shout structure is...',
+            'Our time and date are as follows:'                 =>  'Our time and date are as follows:',
+
+            'Attempted backup of previous shouts, and saving of new shouts.'
+                =>  'Attempted backup of previous shouts, and saving of new shouts.',
+
+            'Determination made that neither past shouts, nor a new shout, are available to work with.'
+                =>  'Determination made that neither past shouts, nor a new shout, are available to work with.',
+
+            'Determination made that we have both a new shout, and a string (that could be empty or full) representing past shouts, available to work with.'
+                =>  'Determination made that we have both a new shout, and a string (that could be empty or full) representing past shouts, available to work with.',
+
+            'Prerequisite boolean used to decide premature exit is...'
+                =>  'Prerequisite boolean used to decide premature exit is...',
+
+            'We have decided to continue with the shout method.'
+                =>  'We have decided to continue with the shout method.',
+        );
+    }
 
     Verbose: {
 
@@ -227,6 +258,7 @@ our %Lexicon = (
     @tokens_long,
     @webapp_phrases,
     @debug_phrases,
+    @trace_phrases,
     @verbose_phrases,
     @stdout_phrases,
 );

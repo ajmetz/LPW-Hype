@@ -3,6 +3,7 @@ use     Object::Pad v0.821;
 class   LPW::Hype 1.00;
 
 use     LPW::Boilerplate::Code;
+use     Path::Tiny;
 inherit Mojolicious;
 
 # This method will run once at server start
@@ -39,9 +40,9 @@ method configure_the_application {
 
 method load_additional_plugins {
 
-    $self->plugin('LPW::Hype::Plugin::Routes');
     $self->plugin('LPW::Hype::Plugin::Languages');
     $self->plugin('LPW::Hype::Plugin::Log');
+    $self->plugin('LPW::Hype::Plugin::Routes');
     return $self;
 
 }
@@ -113,6 +114,13 @@ method setup_shoutbox {
         shout           =>  {
             errors      =>  {},
             valid       =>  {},
+            filepath    =>  path($self->config->{shoutbox_text_filepath}),
+                            #path($self->app->home->rel_file('lib/LPW/Hype/Files')->child('public')->child('text')->to_string, 'shoutbox_text.txt'),
+            backup      =>  path(
+                                path($self->config->{shoutbox_text_filepath})->parent->stringify,
+                                'shoutbox_text.bak',
+                            ),
+                            #path($self->app->home->rel_file('lib/LPW/Hype/Files')->child('public')->child('text')->to_string, 'shoutbox_text.bak'),
         },
 
     );
