@@ -22,7 +22,8 @@ default_language: en-GB
 
 # It's expected the shoutbox_text_filepath
 # will be different between development and production.
-shoutbox_text_filepath: /path/to/public/text/shoutbox_text.txt
+# shoutbox_text_filepath: /path/to/public/text/shoutbox_text.txt
+
 
 # Three dots to end YAML document.
 ...

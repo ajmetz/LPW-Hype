@@ -108,19 +108,22 @@ method setup_template_nest {
 
 method setup_shoutbox {
 
+    my  $filepath       =   # From Config:
+                            $self->config->{shoutbox_text_filepath}?    $self->config->{shoutbox_text_filepath}:
+                            # Or fall back to a sensible default:
+                            $self->app->home->rel_file('lib/LPW/Hype/Files/public/text/')->child('shoutbox_text.txt')->to_string;
+
     $self->defaults(
 
         # Store Template::Nest setup data in the stash:
         shout           =>  {
             errors      =>  {},
             valid       =>  {},
-            filepath    =>  path($self->config->{shoutbox_text_filepath}),
-                            #path($self->app->home->rel_file('lib/LPW/Hype/Files')->child('public')->child('text')->to_string, 'shoutbox_text.txt'),
+            filepath    =>  path($filepath),
             backup      =>  path(
-                                path($self->config->{shoutbox_text_filepath})->parent->stringify,
-                                'shoutbox_text.bak',
+                                path($filepath)->parent->stringify,
+                                'backup.txt',
                             ),
-                            #path($self->app->home->rel_file('lib/LPW/Hype/Files')->child('public')->child('text')->to_string, 'shoutbox_text.bak'),
         },
 
     );

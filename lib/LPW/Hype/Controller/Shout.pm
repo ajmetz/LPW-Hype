@@ -49,8 +49,8 @@ method shout {
         TEMPLATE            =>  'shout.txt',
         TIME                =>  $time_string,
         DATE                =>  $date_string,
-        NAME                =>  encode_entities($self->stash('shout')->{valid}->{name}),
-        MESSAGE             =>  encode_entities($self->stash('shout')->{valid}->{message}),
+        NAME                =>  $self->stash('shout')->{valid}->{name},
+        MESSAGE             =>  $self->stash('shout')->{valid}->{message},
     };
 
     $self->log_trace('Our shout structure is...')->log_dump_values($shout_structure);
