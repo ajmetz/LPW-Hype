@@ -15,6 +15,7 @@ method homepage {
                                                             name
                                                             message
                                                         );
+    my  $empty_string                               =   q{};
     my  $non_breaking_space                         =   '&nbsp;';
     my  @shoutbox_field_layouts                     =   (
                         TEMPLATE                    =>  'shoutbox/shoutbox.htm',
@@ -35,8 +36,9 @@ method homepage {
         my  @STANDARD_FIELD_VALUES  =   (
             TEMPLATE                =>  'shoutbox/'.$field.'_field.htm',
             LABEL                   =>  $self->language->localise('shoutbox.'.$field.'_label'),
-            VALUE                   =>  encode_entities($self->param($field)),
-            ERROR                   =>  q{}, # Blank by default - can be overidden.
+            VALUE                   =>  $self->stash('shout')->{errors}? encode_entities($self->param($field)):
+                                        $empty_string,
+            ERROR                   =>  $empty_string, # Blank by default - can be overidden.
         );
     
         push @shoutbox_field_layouts, (

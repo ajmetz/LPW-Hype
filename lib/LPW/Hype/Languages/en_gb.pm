@@ -94,6 +94,12 @@ Tokens: {
             'shoutbox.error.empty_or_zero_length'
                 =>  'To successfully submit your shout message, you\'ll need to ensure this [_1] field contains valid text.',            
 
+            'shoutbox.error.name_max_length'
+                =>  'To successfully submit your shout message, you\'ll need to ensure this [_1] field contains text that is less than [_2] characters.',
+
+            'shoutbox.error.message_max_length'
+                =>  'Have you considered splitting your long message into multiple smaller messages? That way, it will work with our [_2] maximum character limit.',
+
             'shoutbox.error.unknown_unsafe_word'
                 =>  'You should be able to easily edit this [_1] field, to ensure there are no potentially problematic words or characters.',
 
