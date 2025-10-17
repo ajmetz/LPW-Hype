@@ -36,7 +36,7 @@ method shout {
     my  $time_piece_object  =   localtime;
         $time_piece_object  ->  date_separator('/');
 
-    my  $time_string        =   $time_piece_object->hour && $time_piece_object->min?    sprintf('%01d:%01d', $time_piece_object->hour, $time_piece_object->min):
+    my  $time_string        =   $time_piece_object->hour && $time_piece_object->min?    sprintf('%02d:%02d', $time_piece_object->hour, $time_piece_object->min):
                                 $self->language->localise('shout.time.unknown');
 
     my  $date_string        =   $time_piece_object->dmy? $time_piece_object->dmy:

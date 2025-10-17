@@ -11,27 +11,29 @@ use     HTML::Entities;
 method homepage {
 
     # Initial Values:
-    my  @shoutbox_field_order                       =   qw(
-                                                            name
-                                                            message
-                                                        );
-    my  $empty_string                               =   q{};
-    my  $non_breaking_space                         =   '&nbsp;';
-    my  $shoutbox_error_bookmark_set                =   undef;
-    my  @shoutbox_field_layouts                     =   (
-                        TEMPLATE                    =>  'shoutbox/shoutbox.htm',
-                        'SHOUT-BOX-LOGO-ALT-TEXT'   =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
-                        'SHOUTBOX REFRESH TEXT'     =>  $self->language->localise_html_safe('shoutbox.refresh'),
-                        'LOADING MESSAGE'           =>  $self->language->localise_html_safe('shoutbox.loading_message'),
-                        'CSRF TOKEN'                =>  $self->csrf_token,
-                        'SHOUTBOX LEGAL'            =>  {
-                            TEMPLATE                =>  'shoutbox/content/'.$self->language->language_tag().'/legal.htm', # Add validation for dynamic path perhaps?
+    my  @shoutbox_field_order                           =   qw(
+                                                                name
+                                                                message
+                                                            );
+    my  $empty_string                                   =   q{};
+    my  $non_breaking_space                             =   '&nbsp;';
+    my  $first                                          =   1;
+    my  @shoutbox_layout                                =   (
+                        TEMPLATE                        =>  'shoutbox/shoutbox.htm',
+                        'SHOUT-BOX-LOGO-ALT-TEXT'       =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
+                        'SHOUTBOX REFRESH TEXT'         =>  $self->language->localise_html_safe('shoutbox.refresh'),
+                        'LOADING MESSAGE'               =>  $self->language->localise_html_safe('shoutbox.loading_message'),
+                        'CSRF TOKEN'                    =>  $self->csrf_token,
+                        'SHOUTBOX LEGAL'                =>  {
+                            TEMPLATE                    =>  'shoutbox/content/'.$self->language->language_tag().'/legal.htm', # Add validation for dynamic path perhaps?
                         },
-                        'CONTENT-COMPLAINT'         =>  {
-                            TEMPLATE                =>  'shoutbox/content/'.$self->language->language_tag().'/content_complain.htm', # Add validation for dynamic path perhaps?
+                        'CONTENT-COMPLAINT'             =>  {
+                            TEMPLATE                    =>  'shoutbox/content/'.$self->language->language_tag().'/content_complain.htm', # Add validation for dynamic path perhaps?
                         },
-                        'SHOUTBOX-FORM-SUBMISSION-BOOKMARK'
-                                                    =>  'shoutbox_display',
+                        'SUBMISSION-RESULT-IF-SUCCESS'  =>  $self->stash('shout')->{'successful_submission'}?   {
+                                                                                                                    TEMPLATE    =>  'shoutbox/submission_result_anchor.htm',
+                                                                                                                }:
+                                                            $empty_string,
     );
 
     for my $field (@shoutbox_field_order) {
@@ -47,7 +49,7 @@ method homepage {
         my  $field_error            =   $self->stash('shout')->{errors}
                                         && $self->stash('shout')->{errors}->{"$field"};
     
-        push @shoutbox_field_layouts, (
+        push @shoutbox_layout, (
             uc($field).' FIELD'     =>  {
                                             $field_error?   (
                                                                 TEMPLATE                                =>  'shoutbox/field_error.htm',
@@ -83,7 +85,10 @@ method homepage {
                                                                                                                     ),
                                                                                                                 ),
                                                                                                             ),
-                                                                'FIELD-ERROR-ID'                        =>  'shoutbox_error'.$field,
+                                                                'SUBMISSION-RESULT-IF-FIRST-ERROR'      =>  $first? {
+                                                                                                                        TEMPLATE    =>  'shoutbox/submission_result_anchor.htm',
+                                                                                                                    }:
+                                                                                                            $empty_string,
                                                                 'SHOUT FIELD'                           =>  {
                                                                     @STANDARD_FIELD_VALUES,
                                                                     ERROR                               =>  $self->stash('shout')->{errors}->{"$field"}, # already html_safe via FormData.pm
@@ -93,18 +98,14 @@ method homepage {
                                         },
         );
 
-        if ($field_error) {
-            push @shoutbox_field_layouts, (
-                'SHOUTBOX-FORM-SUBMISSION-BOOKMARK' =>  'shoutbox_error'.$field,
-            ) unless $shoutbox_error_bookmark_set;
-            $shoutbox_error_bookmark_set            =   1;
-        }
+        $first                      =   0
+                                        if $field_error;
 
     }; # end of for @shoutbox_field_order
 
     #$self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
 
-    my  $shoutbox_field_layouts =   {@shoutbox_field_layouts};
+    my  $shoutbox_layout =   {@shoutbox_layout};
     my  $layout_data_structure      =   {
         TEMPLATE                    =>  'main.htm',
         #SCRIPTS                     =>  q{},
@@ -151,7 +152,7 @@ method homepage {
                 },
                 'BOX CONTENT'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/your_say/box_content.htm', # Add validation for dynamic path perhaps?
-                    'SHOUTBOX'      =>  $shoutbox_field_layouts,
+                    'SHOUTBOX'      =>  $shoutbox_layout,
                 },
             },
 
