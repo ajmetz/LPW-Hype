@@ -66,9 +66,11 @@ method shout {
     if ((defined $shouts) && $shout) { # Using "defined" as $shouts could be an empty string if the slurped file was empty.
         $self->log_trace('Determination made that we have both a new shout, and a string (that could be empty or full) representing past shouts, available to work with.');
         $self->stash('shout')->{backup}->touch->spew_utf8($shouts);
-        my  $updated_shouts =   $shout.$shouts; 
+        my  $updated_shouts =   $shout.$shouts;
         $self->stash('shout')->{filepath}->touch->spew_utf8($updated_shouts) if $updated_shouts;
         $self->log_trace('Attempted backup of previous shouts, and saving of new shouts.');
+        $self->stash('shout')->{'successful_submission'}    =   $updated_shouts? 1:
+                                                                undef;
     }
     else {
         $self->log_trace('Determination made that neither past shouts, nor a new shout, are available to work with.');

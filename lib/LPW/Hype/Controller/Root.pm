@@ -17,6 +17,7 @@ method homepage {
                                                         );
     my  $empty_string                               =   q{};
     my  $non_breaking_space                         =   '&nbsp;';
+    my  $shoutbox_error_bookmark_set                =   undef;
     my  @shoutbox_field_layouts                     =   (
                         TEMPLATE                    =>  'shoutbox/shoutbox.htm',
                         'SHOUT-BOX-LOGO-ALT-TEXT'   =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
@@ -29,10 +30,12 @@ method homepage {
                         'CONTENT-COMPLAINT'         =>  {
                             TEMPLATE                =>  'shoutbox/content/'.$self->language->language_tag().'/content_complain.htm', # Add validation for dynamic path perhaps?
                         },
+                        'SHOUTBOX-FORM-SUBMISSION-BOOKMARK'
+                                                    =>  'shoutbox_display',
     );
 
     for my $field (@shoutbox_field_order) {
-    
+
         my  @STANDARD_FIELD_VALUES  =   (
             TEMPLATE                =>  'shoutbox/'.$field.'_field.htm',
             LABEL                   =>  $self->language->localise('shoutbox.'.$field.'_label'),
@@ -40,52 +43,63 @@ method homepage {
                                         $empty_string,
             ERROR                   =>  $empty_string, # Blank by default - can be overidden.
         );
+
+        my  $field_error            =   $self->stash('shout')->{errors}
+                                        && $self->stash('shout')->{errors}->{"$field"};
     
         push @shoutbox_field_layouts, (
             uc($field).' FIELD'     =>  {
-                                            $self->stash('shout')->{errors}->{"$field"}? (
-                                                                                            TEMPLATE                                =>  'shoutbox/field_error.htm',
-                                                                                            'ERROR-HEADING-INITIAL-CHARACTER'       =>  encode_entities(
-                                                                                                                                            join '',
-                                                                                                                                            map {
-                                                                                                                                                my $backwards_heading = reverse ($ARG);
-                                                                                                                                                chop $backwards_heading;
-                                                                                                                                            }
-                                                                                                                                            (
-                                                                                                                                                $self->language->localise('shoutbox.field_error_heading'),
-                                                                                                                                            )
-                                                                                                                                        ),
-                                                                                            'ERROR-HEADING-REMAINING-CHARACTERS'    =>  join('',
-                                                                                                                                            map {
-                                                                                                                                                my  $string =   $ARG;
-                                                                                                                                                $string     =~  s/ /$non_breaking_space/ig;
-                                                                                                                                                $string;
-                                                                                                                                            }
-                                                                                                                                            (
-                                                                                                                                                encode_entities(
-                                                                                                                                                    join(
-                                                                                                                                                        '',
-                                                                                                                                                        map {
-                                                                                                                                                            my $backwards_heading = reverse ($ARG);
-                                                                                                                                                            chop ($backwards_heading);
-                                                                                                                                                            scalar reverse ($backwards_heading);
-                                                                                                                                                        }
-                                                                                                                                                        (
-                                                                                                                                                            $self->language->localise('shoutbox.field_error_heading'),
-                                                                                                                                                        )
-                                                                                                                                                    ),
-                                                                                                                                                ),
-                                                                                                                                            ),
-                                                                                                                                        ),
-                                                                                            'SHOUT FIELD'                           =>  {
-                                                                                                @STANDARD_FIELD_VALUES,
-                                                                                                ERROR                               =>  $self->stash('shout')->{errors}->{"$field"}, # already html_safe via FormData.pm
-                                                                                            },
-                                                                                        ):
-                                            @STANDARD_FIELD_VALUES,
+                                            $field_error?   (
+                                                                TEMPLATE                                =>  'shoutbox/field_error.htm',
+                                                                'ERROR-HEADING-INITIAL-CHARACTER'       =>  encode_entities(
+                                                                                                                join '',
+                                                                                                                map {
+                                                                                                                    my $backwards_heading = reverse ($ARG);
+                                                                                                                    chop $backwards_heading;
+                                                                                                                }
+                                                                                                                (
+                                                                                                                    $self->language->localise('shoutbox.field_error_heading'),
+                                                                                                                )
+                                                                                                            ),
+                                                                'ERROR-HEADING-REMAINING-CHARACTERS'    =>  join('',
+                                                                                                                map {
+                                                                                                                    my  $string =   $ARG;
+                                                                                                                    $string     =~  s/ /$non_breaking_space/ig;
+                                                                                                                    $string;
+                                                                                                                }
+                                                                                                                (
+                                                                                                                    encode_entities(
+                                                                                                                        join(
+                                                                                                                            '',
+                                                                                                                            map {
+                                                                                                                                my $backwards_heading = reverse ($ARG);
+                                                                                                                                chop ($backwards_heading);
+                                                                                                                                scalar reverse ($backwards_heading);
+                                                                                                                            }
+                                                                                                                            (
+                                                                                                                                $self->language->localise('shoutbox.field_error_heading'),
+                                                                                                                            )
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                ),
+                                                                                                            ),
+                                                                'FIELD-ERROR-ID'                        =>  'shoutbox_error'.$field,
+                                                                'SHOUT FIELD'                           =>  {
+                                                                    @STANDARD_FIELD_VALUES,
+                                                                    ERROR                               =>  $self->stash('shout')->{errors}->{"$field"}, # already html_safe via FormData.pm
+                                                                },
+                                                            ):
+                                            @STANDARD_FIELD_VALUES, # Fallback / default.
                                         },
         );
-    
+
+        if ($field_error) {
+            push @shoutbox_field_layouts, (
+                'SHOUTBOX-FORM-SUBMISSION-BOOKMARK' =>  'shoutbox_error'.$field,
+            ) unless $shoutbox_error_bookmark_set;
+            $shoutbox_error_bookmark_set            =   1;
+        }
+
     }; # end of for @shoutbox_field_order
 
     #$self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
