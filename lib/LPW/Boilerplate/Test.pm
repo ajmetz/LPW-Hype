@@ -1,6 +1,8 @@
-package LPW::Hype::Boilerplate::Test;
+package LPW::Boilerplate::Test;
 
-use     LPW::Hype::Boilerplate::Code;
+use     LPW::Boilerplate::Code; # Referred to again below in import method
+                                # - "Processing / Declaring what to import:" section,
+                                # so if you ever change it, change it there too.
 use     Import::Into;
 use     Test::Output;
 use     Test2::V0;
@@ -26,7 +28,7 @@ sub import {
                                         };
 
     # Processing / Declaring what to import:
-    Management::Boilerplate::Code   ->  import::into  ($calling_module_level_depth);
+    LPW::Boilerplate::Code          ->  import::into  ($calling_module_level_depth);
     Test::Output                    ->  import::into  ($calling_module_level_depth);
     Test2::V0                       ->  import::into  ($calling_module_level_depth);
     Test2::Tools::Compare           ->  import::into  ($calling_module_level_depth, @compare_imports);

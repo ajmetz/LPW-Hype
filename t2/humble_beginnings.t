@@ -4,7 +4,7 @@ use Path::Tiny;
 use lib path(__FILE__)->parent->sibling('lib')->realpath->stringify;
 
 # Standard Test Boilerplate:
-use Hype::Boilerplate::Test;
+use LPW::Boilerplate::Test;
 
 # Specific Modules used:
 use Test::Mojo;
@@ -53,14 +53,13 @@ or a specific DOM lookup via C<< tx->res->dom->at >> etc.
 
 =cut
 
-my  $test_object            =   Test::Mojo->new('Hype');
+my  $test_object            =   Test::Mojo->new('LPW::Hype');
 
 # Get Tests
-ok($test_object->get_ok('/hello')->status_is(200)->content_like(qr/hello/i)->success,                   'Our Hello World page appears to work.' );
 ok($test_object->get_ok('/')->status_is(200)->success,                                                  'Our home page exists.'   );
 
 # HTML form tests:
-ok($test_object->get_ok('/')->status_is(200)->tx->res->dom->at('form')
+ok($test_object->get_ok('/')->status_is(200)->tx->res->dom->at('form#shoutout_send')
                                                                     ->matches('form[method=POST]'),     'Has input form with POST method'       ); 
                                                                     # Didn't pass without the "at" before "matches".
                                                                     # Find could be used, and returns Mojo Collection of find results,

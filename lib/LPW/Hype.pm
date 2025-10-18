@@ -2,7 +2,8 @@ use     Object::Pad v0.821;
 
 class   LPW::Hype 1.00;
 
-use     LPW::Hype::Boilerplate::Code;
+use     LPW::Boilerplate::Code;
+use     Path::Tiny;
 inherit Mojolicious;
 
 # This method will run once at server start
@@ -30,16 +31,18 @@ method configure_the_application {
 
     return $self    ->  exclude_author_commands
                     ->  setup_customisation_of_mojolicious_file_paths
-                    ->  setup_template_nest; # returns $self
+                    ->  setup_template_nest
+                    ->  setup_shoutbox
+                    ->  configure_validation; # returns self
 
 }
 
 
 method load_additional_plugins {
 
-    $self->plugin('LPW::Hype::Plugin::Routes');
     $self->plugin('LPW::Hype::Plugin::Languages');
     $self->plugin('LPW::Hype::Plugin::Log');
+    $self->plugin('LPW::Hype::Plugin::Routes');
     return $self;
 
 }
@@ -101,6 +104,37 @@ method setup_template_nest {
 
     return $self;
 
+}
+
+method setup_shoutbox {
+
+    my  $filepath       =   # From Config:
+                            $self->config->{shoutbox_text_filepath}?    $self->config->{shoutbox_text_filepath}:
+                            # Or fall back to a sensible default:
+                            $self->app->home->rel_file('lib/LPW/Hype/Files/public/text/')->child('shoutbox_text.txt')->to_string;
+
+    $self->defaults(
+
+        # Store Template::Nest setup data in the stash:
+        shout           =>  {
+            errors      =>  {},
+            valid       =>  {},
+            filepath    =>  path($filepath),
+            backup      =>  path(
+                                path($filepath)->parent->stringify,
+                                'backup.txt',
+                            ),
+        },
+
+    );
+
+    return $self;
+
+}
+
+method configure_validation {
+    $self->validation->validator->add_check(unlike => sub { $_[2] =~ $_[3] });
+    return $self;
 }
 
 __END__

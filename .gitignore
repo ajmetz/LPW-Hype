@@ -1,6 +1,8 @@
 log.txt
 pid.txt
 /*local.conf
+/*.deployment.yml
+/*.development.yml
 renametoreload*.*
 *.*-shm
 *.*-wal
