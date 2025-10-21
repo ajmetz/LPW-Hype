@@ -219,12 +219,12 @@ method get_shoutbox_layout {
         my  @STANDARD_FIELD_VALUES  =   (
             TEMPLATE                =>  'shoutbox/'.$field.'_field.htm',
             LABEL                   =>  $self->language->localise('shoutbox.'.$field.'_label'),
-            VALUE                   =>  $self->stash('shout')->{errors}? encode_entities($self->param($field)):
+            VALUE                   =>  $self->stash('shout')->{errors}->%*? encode_entities($self->param($field)):
                                         $empty_string,
             ERROR                   =>  $empty_string, # Blank by default - can be overidden.
         );
 
-        my  $field_error            =   $self->stash('shout')->{errors}
+        my  $field_error            =   $self->stash('shout')->{errors}->%*
                                         && $self->stash('shout')->{errors}->{"$field"};
     
         push @shoutbox_layout, (
@@ -281,7 +281,7 @@ method get_shoutbox_layout {
 
     }; # end of for @shoutbox_field_order
 
-    #$self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
+    $self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
 
     return {@shoutbox_layout};
 
