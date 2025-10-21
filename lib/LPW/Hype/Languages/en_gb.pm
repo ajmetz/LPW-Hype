@@ -66,6 +66,7 @@ Tokens: {
 
             '2024_event.box_heading'                    =>  '2024\'s Event',
 
+            'bottom_of_page.link.back_home'             =>  'Back to Homepage',
 
             'shoutbox.field_error_heading'              =>  'CAN YOU TRY AGAIN?',
             'shoutbox.loading_message'                  =>  'Shout out messages should load here shortly...',
@@ -79,6 +80,8 @@ Tokens: {
             'shout.time.unknown'                        =>  'Unknown Time',
 
             'shoutbox.refresh'                          =>  'Refresh / View New Messages',
+            
+
 
 
 

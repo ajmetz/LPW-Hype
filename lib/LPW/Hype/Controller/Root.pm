@@ -11,101 +11,8 @@ use     HTML::Entities;
 method homepage {
 
     # Initial Values:
-    my  @shoutbox_field_order                           =   qw(
-                                                                name
-                                                                message
-                                                            );
-    my  $empty_string                                   =   q{};
-    my  $non_breaking_space                             =   '&nbsp;';
-    my  $first                                          =   1;
-    my  @shoutbox_layout                                =   (
-                        TEMPLATE                        =>  'shoutbox/shoutbox.htm',
-                        'SHOUT-BOX-LOGO-ALT-TEXT'       =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
-                        'SHOUTBOX REFRESH TEXT'         =>  $self->language->localise_html_safe('shoutbox.refresh'),
-                        'LOADING MESSAGE'               =>  $self->language->localise_html_safe('shoutbox.loading_message'),
-                        'CSRF TOKEN'                    =>  $self->csrf_token,
-                        'SHOUTBOX LEGAL'                =>  {
-                            TEMPLATE                    =>  'shoutbox/content/'.$self->language->language_tag().'/legal.htm', # Add validation for dynamic path perhaps?
-                        },
-                        'CONTENT-COMPLAINT'             =>  {
-                            TEMPLATE                    =>  'shoutbox/content/'.$self->language->language_tag().'/content_complain.htm', # Add validation for dynamic path perhaps?
-                        },
-                        'SUBMISSION-RESULT-IF-SUCCESS'  =>  $self->stash('shout')->{'successful_submission'}?   {
-                                                                                                                    TEMPLATE    =>  'shoutbox/submission_result_anchor.htm',
-                                                                                                                }:
-                                                            $empty_string,
-    );
+    my  $shoutbox_layout            =   $self->get_shoutbox_layout;
 
-    for my $field (@shoutbox_field_order) {
-
-        my  @STANDARD_FIELD_VALUES  =   (
-            TEMPLATE                =>  'shoutbox/'.$field.'_field.htm',
-            LABEL                   =>  $self->language->localise('shoutbox.'.$field.'_label'),
-            VALUE                   =>  $self->stash('shout')->{errors}? encode_entities($self->param($field)):
-                                        $empty_string,
-            ERROR                   =>  $empty_string, # Blank by default - can be overidden.
-        );
-
-        my  $field_error            =   $self->stash('shout')->{errors}
-                                        && $self->stash('shout')->{errors}->{"$field"};
-    
-        push @shoutbox_layout, (
-            uc($field).' FIELD'     =>  {
-                                            $field_error?   (
-                                                                TEMPLATE                                =>  'shoutbox/field_error.htm',
-                                                                'ERROR-HEADING-INITIAL-CHARACTER'       =>  encode_entities(
-                                                                                                                join '',
-                                                                                                                map {
-                                                                                                                    my $backwards_heading = reverse ($ARG);
-                                                                                                                    chop $backwards_heading;
-                                                                                                                }
-                                                                                                                (
-                                                                                                                    $self->language->localise('shoutbox.field_error_heading'),
-                                                                                                                )
-                                                                                                            ),
-                                                                'ERROR-HEADING-REMAINING-CHARACTERS'    =>  join('',
-                                                                                                                map {
-                                                                                                                    my  $string =   $ARG;
-                                                                                                                    $string     =~  s/ /$non_breaking_space/ig;
-                                                                                                                    $string;
-                                                                                                                }
-                                                                                                                (
-                                                                                                                    encode_entities(
-                                                                                                                        join(
-                                                                                                                            '',
-                                                                                                                            map {
-                                                                                                                                my $backwards_heading = reverse ($ARG);
-                                                                                                                                chop ($backwards_heading);
-                                                                                                                                scalar reverse ($backwards_heading);
-                                                                                                                            }
-                                                                                                                            (
-                                                                                                                                $self->language->localise('shoutbox.field_error_heading'),
-                                                                                                                            )
-                                                                                                                        ),
-                                                                                                                    ),
-                                                                                                                ),
-                                                                                                            ),
-                                                                'SUBMISSION-RESULT-IF-FIRST-ERROR'      =>  $first? {
-                                                                                                                        TEMPLATE    =>  'shoutbox/submission_result_anchor.htm',
-                                                                                                                    }:
-                                                                                                            $empty_string,
-                                                                'SHOUT FIELD'                           =>  {
-                                                                    @STANDARD_FIELD_VALUES,
-                                                                    ERROR                               =>  $self->stash('shout')->{errors}->{"$field"}, # already html_safe via FormData.pm
-                                                                },
-                                                            ):
-                                            @STANDARD_FIELD_VALUES, # Fallback / default.
-                                        },
-        );
-
-        $first                      =   0
-                                        if $field_error;
-
-    }; # end of for @shoutbox_field_order
-
-    #$self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
-
-    my  $shoutbox_layout =   {@shoutbox_layout};
     my  $layout_data_structure      =   {
         TEMPLATE                    =>  'main.htm',
         #SCRIPTS                     =>  q{},
@@ -203,6 +110,10 @@ method sponsorship {
             'GET-IN-TOUCH BUTTON'   =>  {
                 TEMPLATE            =>  'content/'.$self->language->language_tag().'/sponsorship/get_in_touch_button.htm',
             },
+            'BACK-TO-HOME-PAGE'     =>  {
+                TEMPLATE            =>  'back_home.htm',
+                'BACK-HOME-TEXT'    =>  $self->language->localise_html_safe('bottom_of_page.link.back_home'),
+            },
         },
     };
 
@@ -227,6 +138,10 @@ method terms_of_service {
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/terms/terms.htm',
+            'BACK-TO-HOME-PAGE'     =>  {
+                TEMPLATE            =>  'back_home.htm',
+                'BACK-HOME-TEXT'    =>  $self->language->localise_html_safe('bottom_of_page.link.back_home'),
+            },
         },
     };
 
@@ -251,6 +166,10 @@ method privacy_policy {
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/privacy/privacy_policy.htm',
+            'BACK-TO-HOME-PAGE'     =>  {
+                TEMPLATE            =>  'back_home.htm',
+                'BACK-HOME-TEXT'    =>  $self->language->localise_html_safe('bottom_of_page.link.back_home'),
+            },
         },
     };
 
@@ -261,6 +180,110 @@ method privacy_policy {
     $self->render(
         text                        =>  $layout,
     );
+
+}
+
+method get_shoutbox_layout {
+
+    # Initial values:
+    my  @shoutbox_field_order                           =   qw(
+                                                                name
+                                                                message
+                                                            );
+    my  $empty_string                                   =   q{};
+    my  $non_breaking_space                             =   '&nbsp;';
+
+    my  @shoutbox_layout                                =   (
+                        TEMPLATE                        =>  'shoutbox/shoutbox.htm',
+                        'SHOUT-BOX-LOGO-ALT-TEXT'       =>  $self->language->localise_html_safe('shoutbox.logo_alt_text'),
+                        'SHOUTBOX REFRESH TEXT'         =>  $self->language->localise_html_safe('shoutbox.refresh'),
+                        'LOADING MESSAGE'               =>  $self->language->localise_html_safe('shoutbox.loading_message'),
+                        'CSRF TOKEN'                    =>  $self->csrf_token,
+                        'SHOUTBOX LEGAL'                =>  {
+                            TEMPLATE                    =>  'shoutbox/content/'.$self->language->language_tag().'/legal.htm', # Add validation for dynamic path perhaps?
+                        },
+                        'CONTENT-COMPLAINT'             =>  {
+                            TEMPLATE                    =>  'shoutbox/content/'.$self->language->language_tag().'/content_complain.htm', # Add validation for dynamic path perhaps?
+                        },
+                        'SUBMISSION-RESULT-IF-SUCCESS'  =>  $self->stash('shout')->{'successful_submission'}?   {
+                                                                                                                    TEMPLATE    =>  'shoutbox/submission_result_anchor.htm',
+                                                                                                                }:
+                                                            $empty_string,
+    );
+
+
+    my  $first                      =   1;  # Start with true value,
+                                            # for use in loop below.
+    for my $field (@shoutbox_field_order) {
+
+        my  @STANDARD_FIELD_VALUES  =   (
+            TEMPLATE                =>  'shoutbox/'.$field.'_field.htm',
+            LABEL                   =>  $self->language->localise('shoutbox.'.$field.'_label'),
+            VALUE                   =>  $self->stash('shout')->{errors}? encode_entities($self->param($field)):
+                                        $empty_string,
+            ERROR                   =>  $empty_string, # Blank by default - can be overidden.
+        );
+
+        my  $field_error            =   $self->stash('shout')->{errors}
+                                        && $self->stash('shout')->{errors}->{"$field"};
+    
+        push @shoutbox_layout, (
+            uc($field).' FIELD'     =>  {
+                                            $field_error?   (
+                                                                TEMPLATE                                =>  'shoutbox/field_error.htm',
+                                                                'ERROR-HEADING-INITIAL-CHARACTER'       =>  encode_entities(
+                                                                                                                join '',
+                                                                                                                map {
+                                                                                                                    my $backwards_heading = reverse ($ARG);
+                                                                                                                    chop $backwards_heading;
+                                                                                                                }
+                                                                                                                (
+                                                                                                                    $self->language->localise('shoutbox.field_error_heading'),
+                                                                                                                )
+                                                                                                            ),
+                                                                'ERROR-HEADING-REMAINING-CHARACTERS'    =>  join('',
+                                                                                                                map {
+                                                                                                                    my  $string =   $ARG;
+                                                                                                                    $string     =~  s/ /$non_breaking_space/ig;
+                                                                                                                    $string;
+                                                                                                                }
+                                                                                                                (
+                                                                                                                    encode_entities(
+                                                                                                                        join(
+                                                                                                                            '',
+                                                                                                                            map {
+                                                                                                                                my $backwards_heading = reverse ($ARG);
+                                                                                                                                chop ($backwards_heading);
+                                                                                                                                scalar reverse ($backwards_heading);
+                                                                                                                            }
+                                                                                                                            (
+                                                                                                                                $self->language->localise('shoutbox.field_error_heading'),
+                                                                                                                            )
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                ),
+                                                                                                            ),
+                                                                'SUBMISSION-RESULT-IF-FIRST-ERROR'      =>  $first? {
+                                                                                                                        TEMPLATE    =>  'shoutbox/submission_result_anchor.htm',
+                                                                                                                    }:
+                                                                                                            $empty_string,
+                                                                'SHOUT FIELD'                           =>  {
+                                                                    @STANDARD_FIELD_VALUES,
+                                                                    ERROR                               =>  $self->stash('shout')->{errors}->{"$field"}, # already html_safe via FormData.pm
+                                                                },
+                                                            ):
+                                            @STANDARD_FIELD_VALUES, # Fallback / default.
+                                        },
+        );
+
+        $first                      =   0
+                                        if $field_error;
+
+    }; # end of for @shoutbox_field_order
+
+    #$self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
+
+    return {@shoutbox_layout};
 
 }
 
