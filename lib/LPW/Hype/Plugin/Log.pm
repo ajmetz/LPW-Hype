@@ -9,61 +9,65 @@ use     Mojo::Util qw(dumper);
 
 method register ($app, $config) {
 
-    my  $helpers        =   {
+    my  $production_environment =   $app->mode eq 'deployment';
 
-        log_debug       =>  sub ($self, @arguments) {
+    my  $helpers                =   {
 
-                                $self->log->debug(
-                                    $self->language->localise(@arguments),
-                                );
+        log_debug               =>  sub ($self, @arguments) {
+        
+                                        $self->log->debug(
+                                            $self->language->localise(@arguments),
+                                        );
+        
+                                        return $self;
+        
+                                    },
 
-                                return $self;
+        log_trace               =>  sub ($self, @arguments) {
+        
+                                        $self->log->trace(
+                                            $self->language->localise(@arguments),
+                                        );
+        
+                                        return $self;
+        
+                                    },
 
-                            },
+        log_error               =>  sub ($self, @arguments) {
+        
+                                        $self->log->error(
+                                            $self->language->localise(@arguments),
+                                        );
+        
+                                        return $self;
+        
+                                    },
 
-        log_trace       =>  sub ($self, @arguments) {
+        log_fatal               =>  sub ($self, @arguments) {
+        
+                                        $self->log->fatal(
+                                            $self->language->localise(@arguments),
+                                        );
+                                        # Will the next line execute, if this is fatal?
+                                        return $self;
+        
+                                    },
 
-                                $self->log->trace(
-                                    $self->language->localise(@arguments),
-                                );
-
-                                return $self;
-
-                            },
-
-        log_error       =>  sub ($self, @arguments) {
-
-                                $self->log->error(
-                                    $self->language->localise(@arguments),
-                                );
-
-                                return $self;
-
-                            },
-
-        log_fatal       =>  sub ($self, @arguments) {
-
-                                $self->log->fatal(
-                                    $self->language->localise(@arguments),
-                                );
-                                # Will the next line execute, if this is fatal?
-                                return $self;
-
-                            },
-
-        log_dump_values =>  sub ($self, @arguments) {
-
-                                $self->log->info(
-                                    "-\n".dumper(@arguments)
-                                );
-
-                                return $self;
-
-                            },
+        log_dump_values         =>  sub ($self, @arguments) {
+        
+                                        return $self if $production_environment;
+        
+                                        $self->log->info(
+                                            "-\n".dumper(@arguments)
+                                        );
+        
+                                        return $self;
+        
+                                    },
     };
 
     for my $current (keys $helpers->%*) {
-        $app->helper($current    =>  $helpers->{$current});
+        $app->helper($current   =>  $helpers->{$current});
     };
 
     return;

@@ -38,8 +38,8 @@ method process_according_to_type {
     # Assuming form_type only ever has one value,
     # so only one form type will be processed per request,
     # in the order of the ternary questions...
-
-    return ($valid_form_type eq 'shout')? $self->process_shout:
+    return $valid_form_type?    ($valid_form_type eq 'shout')?  $self->process_shout:
+                                $self:
     $self;
 
 }

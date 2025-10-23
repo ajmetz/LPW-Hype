@@ -281,8 +281,8 @@ method get_shoutbox_layout {
 
     }; # end of for @shoutbox_field_order
 
-    $self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
-
+    #$self->log_debug('What does our stash look like?')->log_dump_values($self->stash);
+    #$self->log_dump_values($self->app->mode); #deployment
     return {@shoutbox_layout};
 
 }
