@@ -8,3 +8,4 @@ renametoreload*.*
 *.*-wal
 *.db
 nano.save
+/*_log.txt

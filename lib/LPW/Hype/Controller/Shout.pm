@@ -71,6 +71,8 @@ method shout {
         $self->log_trace('Attempted backup of previous shouts, and saving of new shouts.');
         $self->stash('shout')->{'successful_submission'}    =   $updated_shouts? 1:
                                                                 undef;
+        # We've had weird repeating messages, so try blanking the stash values after success.
+        $self->stash('shout')->{valid}  =   {};
     }
     else {
         $self->log_trace('Determination made that neither past shouts, nor a new shout, are available to work with.');

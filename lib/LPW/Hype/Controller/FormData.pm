@@ -94,15 +94,23 @@ method process_shout {
 
     $self->log_trace('Processing shout');
 
+    # Initial Values:
     my  $unsafe_words               =   [qw(
                                             textarea
+                                            https://t.me/FeedbackFormEU
                                         )];
     my  $unsafe_words_regex_string  =   $self->arrayref_to_regex_OR_string($unsafe_words);
     my  $matches_unsafe_words       =   qr/($unsafe_words_regex_string)/i;
     my  $matches_at_sign            =   qr/\@/;
     my  $name_character_limit       =   34;
     my  $message_character_limit    =   1600;
-
+    
+    # Reset fields before processing new values for them begins!
+    $self->stash('shout')->{errors}                     =   {};
+    $self->stash('shout')->{valid}                      =   {};
+    $self->stash('shout')->{'successful_submission'}    =   undef;
+    
+    # Processing:
     for my $field ('name', 'message') {
         my  $error  =   $self->validation->required($field, 'not_empty')->required($field, 'trim')->size(1,undef)->has_error($field)?   $self->language->localise_html_safe(
                                                                                                                                             'shoutbox.error.empty_or_zero_length',
@@ -153,8 +161,7 @@ method process_shout {
                                                         if $valid;
 
     };
-    
-    
+
 
     return $self;
 }

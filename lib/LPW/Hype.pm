@@ -115,7 +115,7 @@ method setup_shoutbox {
 
     $self->defaults(
 
-        # Store Template::Nest setup data in the stash:
+        # Store setup data in the stash:
         shout           =>  {
             errors      =>  {},
             valid       =>  {},
