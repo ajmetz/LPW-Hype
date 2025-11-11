@@ -24,7 +24,8 @@ method register ($app, $conf) {
         ->any('/terms_of_service')  ->to('Root#'.   'terms_of_service'  );
     $routes
         ->any('/privacy_policy')    ->to('Root#'.   'privacy_policy'    );
-
+    $routes
+        ->any('/perl-weekly-update')->to('Root#'.   'perl_weekly_update');
 
 
     # Default / fall back for anything else (other than simply root)...
