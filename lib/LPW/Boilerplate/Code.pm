@@ -18,7 +18,7 @@ use     builtin "$feature_bundle";
 use     Import::Into;
 use     English;
 
-our $VERSION                        =   'v2.0.0';
+our $VERSION                        =   'v2.0.1';
 
 sub import {
 
