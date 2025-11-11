@@ -1,0 +1,11 @@
+log.txt
+pid.txt
+/*local.conf
+/*.deployment.yml
+/*.development.yml
+renametoreload*.*
+*.*-shm
+*.*-wal
+*.db
+nano.save
+/*_log.txt
