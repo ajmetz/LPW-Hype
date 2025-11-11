@@ -133,7 +133,7 @@ method setup_shoutbox {
 }
 
 method configure_validation {
-    $self->validation->validator->add_check(unlike => sub { $_[2] =~ $_[3] });
+    $self->validation->validator->add_check(unlike => sub { $ARG[2] =~ $ARG[3] });
     return $self;
 }
 
