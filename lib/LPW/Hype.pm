@@ -1,6 +1,6 @@
 use     Object::Pad v0.821;
 
-class   LPW::Hype 1.00;
+class   LPW::Hype v1.0.1;
 
 use     LPW::Boilerplate::Code;
 use     Path::Tiny;
