@@ -1,0 +1,28 @@
+# Three dashes to start new YAML document.
+---
+
+# Example YAML config for LPW::Hype named:
+# l_p_w-hype.example_config.yml
+# You should create your own named:
+# l_p_w-hype.development.yml
+# and 
+# l_p_w-hype.deployment.yml
+# for development and production respectively.
+
+# A default config is provided as...
+# l_p_w-hype.yml
+# ...which comments out the shoutbox_text_filepath
+# line - with a fallback to a sensible default value
+# provided by Hype.pm
+
+secrets:
+  - SomeSecretCode
+
+default_language: en-GB
+
+# It's expected the shoutbox_text_filepath
+# will be different between development and production.
+shoutbox_text_filepath: /path/to/public/text/shoutbox_text.txt
+
+# Three dots to end YAML document.
+...
