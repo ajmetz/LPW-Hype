@@ -9,7 +9,7 @@ use     Test2::V0;
 use     Test2::Tools::Compare;
 use     Test2::Tools::Exception;
 
-our $VERSION                        =   'v2.0.0';
+our $VERSION                        =   'v2.0.1';
 
 sub import {
 
