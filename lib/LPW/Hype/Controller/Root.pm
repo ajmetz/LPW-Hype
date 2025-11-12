@@ -63,6 +63,17 @@ method homepage {
                 },
             },
 
+            'TALKS'               =>  {
+                TEMPLATE            =>  'box.htm',
+                'BOX HEADING'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/talks/box_heading.htm', # Add validation for dynamic path perhaps?
+                },
+                'BOX CONTENT'       =>  {
+                    TEMPLATE        =>  'content/'.$self->language->language_tag().'/talks/box_content.htm', # Add validation for dynamic path perhaps?
+                },
+            },
+
+
             'CONTACT'               =>  {
                 TEMPLATE            =>  'box.htm',
                 'BOX HEADING'       =>  {
