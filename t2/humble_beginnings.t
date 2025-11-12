@@ -57,10 +57,10 @@ my  $test_object            =   Test::Mojo->new('LPW::Hype');
 
 # Get Tests
 ok($test_object->get_ok('/')->status_is(200)->success,                                                  'Our home page exists.'   );
-ok($test_object->get_ok('/')->status_is(200)->content_like(qr/talks\:/i)->success,                      'Our home page contains a boxout on talks   .'   ); # This is biased to english text, and not dynamic, and not unique to a talk box. It'll do for now however.
+ok($test_object->get_ok('/')->status_is(200)->content_like(qr/Talks/)->success,                      'Our home page contains a boxout on talks   .'   ); # This is biased to english text, and not dynamic, and not unique to a talk box. It'll do for now however.
 
 # HTML form tests:
-ok($test_object->get_ok('/')->status_is(200)->tx->res->dom->at('form#shoutout_send')
+ok($test_object->get_ok('/')->status_is(200)->tx->res->dom->at('form#shout_send')
                                                                     ->matches('form[method=POST]'),     'Has input form with POST method'       ); 
                                                                     # Didn't pass without the "at" before "matches".
                                                                     # Find could be used, and returns Mojo Collection of find results,
