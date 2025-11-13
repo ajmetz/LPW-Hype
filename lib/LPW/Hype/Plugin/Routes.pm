@@ -21,6 +21,8 @@ method register ($app, $conf) {
     $routes
         ->any('/sponsorship')       ->to('Root#'.   'sponsorship'       );
     $routes
+        ->any('/news')             ->to('Root#'.    'news'              );
+    $routes
         ->any('/talks')             ->to('Root#'.   'talks'             );
     $routes
         ->any('/terms_of_service')  ->to('Root#'.   'terms_of_service'  );
