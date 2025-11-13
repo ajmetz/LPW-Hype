@@ -266,6 +266,42 @@ method talks {
 
 }
 
+method news {
+
+    # Initial values:
+    my  $blank                      =   q{};
+    my  $layout_data_structure      =   {
+        TEMPLATE                    =>  'main.htm',
+        HEADER                      =>  {
+            TEMPLATE                =>  'header.htm',
+        },
+        NAV                         =>  {
+            TEMPLATE                =>  'navigation.htm',
+        },
+        CONTENT                     =>  {
+            TEMPLATE                =>  'content/'.$self->language->language_tag().'/news/page.htm',
+            'PERL-WEEKLY-SECTION'   =>  {
+                TEMPLATE            =>  'content/'.$self->language->language_tag().'/perl_weekly_update/november03.htm',
+                'BACK-TO-HOME-PAGE' =>  $blank,
+            },
+            'BACK-TO-HOME-PAGE'     =>  {
+                TEMPLATE        =>  'back_home.htm',
+                'BACK-HOME-TEXT'=>  $self->language->localise_html_safe('bottom_of_page.link.back_home'),
+            },
+        },
+    };
+
+    # Processing:
+    my  $layout                     =   Template::Nest->new($self->stash->{layout_settings}->@*)->render($layout_data_structure);
+
+    # Output:
+    $self->render(
+        text                        =>  $layout,
+    );
+
+}
+
+
 method get_shoutbox_layout {
 
     # Initial values:
