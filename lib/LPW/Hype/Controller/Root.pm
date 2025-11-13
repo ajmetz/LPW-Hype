@@ -19,6 +19,9 @@ method homepage {
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
         },
+        NAV                         =>  {
+            TEMPLATE                =>  'navigation.htm',
+        },
         CONTENT                     =>  {
             TEMPLATE                =>  'homepage.htm',
 
@@ -116,6 +119,7 @@ method sponsorship {
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
         },
+        NAV                         =>  $blank,
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/sponsorship/page.htm',
             'GET-IN-TOUCH BUTTON'   =>  {
@@ -147,6 +151,9 @@ method terms_of_service {
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
         },
+        NAV                         =>  {
+            TEMPLATE                =>  'navigation.htm',
+        },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/terms/terms.htm',
             'BACK-TO-HOME-PAGE'     =>  {
@@ -174,6 +181,9 @@ method privacy_policy {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+        },
+        NAV                         =>  {
+            TEMPLATE                =>  'navigation.htm',
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/privacy/privacy_policy.htm',
@@ -203,6 +213,9 @@ method perl_weekly_update {
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
         },
+        NAV                         =>  {
+            TEMPLATE                =>  'navigation.htm',
+        },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/perl_weekly_update/november03.htm',
             'BACK-TO-HOME-PAGE'     =>  {
@@ -230,6 +243,9 @@ method talks {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+        },
+        NAV                         =>  {
+            TEMPLATE                =>  'navigation.htm',
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/talks/page.htm',
