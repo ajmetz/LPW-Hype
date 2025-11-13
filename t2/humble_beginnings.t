@@ -57,7 +57,9 @@ my  $test_object            =   Test::Mojo->new('LPW::Hype');
 
 # Get Tests
 ok($test_object->get_ok('/')->status_is(200)->success,                                                  'Our home page exists.'   );
-ok($test_object->get_ok('/')->status_is(200)->content_like(qr/Talks/)->success,                      'Our home page contains a boxout on talks   .'   ); # This is biased to english text, and not dynamic, and not unique to a talk box. It'll do for now however.
+ok($test_object->get_ok('/')->status_is(200)->content_like(qr/Talks/)->success,                         'Our home page contains "Talks" which suggests a boxout on talks is likely included.'   ); # This is biased to english text, and not dynamic, and not unique to a talk box. It'll do for now however.
+ok($test_object->get_ok('/talks')->status_is(200)->content_like(qr/\Q<!-- Talks Page -->\E/i)->success,  'Our talks page exists, identified via a <!-- Talks Page --> html comment in source code.'   );
+
 
 # HTML form tests:
 ok($test_object->get_ok('/')->status_is(200)->tx->res->dom->at('form#shout_send')
