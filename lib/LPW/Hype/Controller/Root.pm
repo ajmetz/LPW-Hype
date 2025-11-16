@@ -17,7 +17,16 @@ method homepage {
         TEMPLATE                    =>  'main.htm',
         #SCRIPTS                     =>  q{},
         HEADER                      =>  {
-            TEMPLATE                =>  'header_with_sponsors.htm',
+            TEMPLATE                =>  'header.htm',
+            'HOMEPAGE SPONSORS'    =>  {
+                TEMPLATE            =>  'homepage_header_sponsors.htm',
+            },
+            'CALL-TO-ACTION'        =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  '/#2025_event_section',
+                        TARGET      =>  '_self',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.2025'),            
+            },
         },
         NAV                         =>  {
             TEMPLATE                =>  'navigation.htm',
@@ -42,6 +51,12 @@ method homepage {
                 },
                 'BOX CONTENT'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/2025_event/box_content.htm', # Add validation for dynamic path perhaps?
+                    'REGISTER TO ATTEND'    =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  'https://act.yapc.eu/lpw2025/register',
+                        TARGET      =>  '_blank',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.attend'),
+                    },
                 },
             },
 
@@ -73,6 +88,12 @@ method homepage {
                 },
                 'BOX CONTENT'       =>  {
                     TEMPLATE        =>  'content/'.$self->language->language_tag().'/talks/box_content.htm', # Add validation for dynamic path perhaps?
+                    'REGISTER YOUR TALK'    =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  'https://act.yapc.eu/lpw2025/newtalk',
+                        TARGET      =>  '_blank',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.talk'),
+                    },
                 },
             },
 
@@ -118,6 +139,8 @@ method sponsorship {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+            'HOMEPAGE SPONSORS'     =>  $blank,
+            'CALL-TO-ACTION'        =>  $blank,
         },
         NAV                         =>  $blank,
         CONTENT                     =>  {
@@ -150,6 +173,8 @@ method terms_of_service {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+            'HOMEPAGE SPONSORS'     =>  $blank,
+            'CALL-TO-ACTION'        =>  $blank,
         },
         NAV                         =>  {
             TEMPLATE                =>  'navigation.htm',
@@ -181,6 +206,8 @@ method privacy_policy {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+            'HOMEPAGE SPONSORS'     =>  $blank,
+            'CALL-TO-ACTION'        =>  $blank,
         },
         NAV                         =>  {
             TEMPLATE                =>  'navigation.htm',
@@ -212,6 +239,8 @@ method perl_weekly_update {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+            'HOMEPAGE SPONSORS'     =>  $blank,
+            'CALL-TO-ACTION'        =>  $blank,
         },
         NAV                         =>  {
             TEMPLATE                =>  'navigation.htm',
@@ -243,6 +272,8 @@ method talks {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+            'HOMEPAGE SPONSORS'     =>  $blank,
+            'CALL-TO-ACTION'        =>  $blank,
         },
         NAV                         =>  {
             TEMPLATE                =>  'navigation.htm',
@@ -274,12 +305,26 @@ method news {
         TEMPLATE                    =>  'main.htm',
         HEADER                      =>  {
             TEMPLATE                =>  'header.htm',
+            'HOMEPAGE SPONSORS'     =>  $blank,
+            'CALL-TO-ACTION'        =>  $blank,
         },
         NAV                         =>  {
             TEMPLATE                =>  'navigation.htm',
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/news/page.htm',
+            'REGISTER TO ATTEND'    =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  'https://act.yapc.eu/lpw2025/register',
+                        TARGET      =>  '_blank',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.attend'),
+            },
+            'REGISTER YOUR TALK'    =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  'https://act.yapc.eu/lpw2025/newtalk',
+                        TARGET      =>  '_blank',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.talk'),
+            },
             'PERL-WEEKLY-SECTION'   =>  {
                 TEMPLATE            =>  'content/'.$self->language->language_tag().'/perl_weekly_update/november03.htm',
                 'BACK-TO-HOME-PAGE' =>  $blank,

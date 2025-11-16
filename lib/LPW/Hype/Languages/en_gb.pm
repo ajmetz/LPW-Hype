@@ -68,6 +68,10 @@ Tokens: {
 
             'bottom_of_page.link.back_home'             =>  'Back to Homepage',
 
+            'call_to_action_button.label.attend'        =>  'Register To Attend!',
+            'call_to_action_button.label.talk'          =>  'Register Your Talk!',
+            'call_to_action_button.label.2025'          =>  '🐪 ATTEND! 😃',
+
             'shoutbox.field_error_heading'              =>  'CAN YOU TRY AGAIN?',
             'shoutbox.loading_message'                  =>  'Shout out messages should load here shortly...',
             'shoutbox.logo_alt_text'                    =>  'SHOUT BOX LOGO',
