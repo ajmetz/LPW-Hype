@@ -17,7 +17,7 @@ method homepage {
         TEMPLATE                    =>  'main.htm',
         #SCRIPTS                     =>  q{},
         HEADER                      =>  {
-            TEMPLATE                =>  'header.htm',
+            TEMPLATE                =>  'header_with_sponsors.htm',
         },
         NAV                         =>  {
             TEMPLATE                =>  'navigation.htm',
