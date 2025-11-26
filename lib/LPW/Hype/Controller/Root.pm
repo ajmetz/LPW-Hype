@@ -313,6 +313,12 @@ method news {
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/news/page.htm',
+            'SCHEDULE BUTTON'       =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  'https://act.yapc.eu/lpw2025/schedule',
+                        TARGET      =>  '_blank',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.view_schedule'),
+            },
             'REGISTER TO ATTEND'    =>  {
                         TEMPLATE    =>  'call_to_action_button.htm',
                         URL         =>  'https://act.yapc.eu/lpw2025/register',
