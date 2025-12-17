@@ -5,7 +5,7 @@ class   LPW::Hype::Controller::Shout;
 inherit Mojolicious::Controller;
 
 use     LPW::Boilerplate::Code;
-use     Template::Nest; # Personal version, patched with "use open ':std', ':encoding(UTF-8)';" to enable utf-8 support.
+use     Template::Nest;
 use     Path::Tiny;
 use     Time::Piece;
 use     HTML::Entities;
