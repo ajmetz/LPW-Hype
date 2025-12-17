@@ -1,6 +1,6 @@
 use     Object::Pad v0.821;
 
-class   LPW::Hype v3.0.2;
+class   LPW::Hype v3.0.3;
 
 use     LPW::Boilerplate::Code;
 use     Path::Tiny;
@@ -88,6 +88,7 @@ method setup_template_nest {
             escape_char         =>  '\\',
             name_label          =>  'TEMPLATE',
             token_placeholder   =>  "\\PUT PUT param_name HERE \\HERE",
+            file_encoding       =>  'UTF-8',
             template_ext        =>  '', # Blank so can declare extension under the NAME key.
                                         # This will allow me to use htm and html
                                         # or anything else as I wish.
