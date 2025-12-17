@@ -5,7 +5,7 @@ class   LPW::Hype::Controller::Root;
 inherit Mojolicious::Controller;
 
 use     LPW::Boilerplate::Code;
-use     Template::Nest; # Personal version, patched with "use open ':std', ':encoding(UTF-8)';" to enable utf-8 support.
+use     Template::Nest;
 use     HTML::Entities;
 
 method homepage {
@@ -280,6 +280,12 @@ method talks {
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/talks/page.htm',
+            'SCHEDULE BUTTON'       =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  'https://act.yapc.eu/lpw2025/schedule',
+                        TARGET      =>  '_blank',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.view_schedule'),
+            },
             'BACK-TO-HOME-PAGE'     =>  {
                 TEMPLATE            =>  'back_home.htm',
                 'BACK-HOME-TEXT'    =>  $self->language->localise_html_safe('bottom_of_page.link.back_home'),
@@ -313,6 +319,12 @@ method news {
         },
         CONTENT                     =>  {
             TEMPLATE                =>  'content/'.$self->language->language_tag().'/news/page.htm',
+            'SCHEDULE BUTTON'       =>  {
+                        TEMPLATE    =>  'call_to_action_button.htm',
+                        URL         =>  'https://act.yapc.eu/lpw2025/schedule',
+                        TARGET      =>  '_blank',
+                        LABEL       =>  $self->language->localise_html_safe('call_to_action_button.label.view_schedule'),
+            },
             'REGISTER TO ATTEND'    =>  {
                         TEMPLATE    =>  'call_to_action_button.htm',
                         URL         =>  'https://act.yapc.eu/lpw2025/register',
