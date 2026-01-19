@@ -10,6 +10,7 @@ method register ($app, $conf) {
     # Pre-processing:
     my  $routes =   $app->routes
                     ->under->to('FormData#check_for_language_change')
+                    ->under->to('FormData#reset_for_request_cycle')
                     ->under->to('FormData#process_according_to_type')
                     ->under->to('Shout#shout');
 
