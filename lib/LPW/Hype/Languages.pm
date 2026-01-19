@@ -27,9 +27,16 @@ method localise_html_safe (@ARG) {
 
 method localise_html_safe_with_non_breaking_spaces_only (@ARG) {
 
-        my  $non_breaking_space =   &nbsp;
-        my  $value              =   $self->localise_html_safe(@ARG);
-        return          $value  =~  s/ /$non_breaking_space/ig;
+        # 19th Jan 2026 - have corrected errors in this presently never-used method,
+        # and it presumably expects only strings/phrases/text without html or code,
+        # as replacing spaces with a non-breaking space,
+        # doesn't make sense within html tags, css, or xhtml tags.
+        # I'd recommend this module have further review and testing before use.
+        # For now it is un-used, so no big deal.
+        my      $non_breaking_space =   '&nbsp;';
+        my      $value              =   $self->localise_html_safe(@ARG);
+                $value              =~  s/ /$non_breaking_space/ig;
+        return  $value;
 }
 
 method localise (@ARG) {

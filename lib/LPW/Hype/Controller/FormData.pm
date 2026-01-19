@@ -18,6 +18,19 @@ method check_for_language_change {
 
 }
 
+method reset_for_request_cycle {
+    $self->reset_shout_fields;
+    return $self;
+}
+
+method reset_shout_fields {
+    # Reset fields before processing new values for them begins!
+    $self->stash('shout')->{errors}                     =   {};
+    $self->stash('shout')->{valid}                      =   {};
+    $self->stash('shout')->{'successful_submission'}    =   undef;
+    return $self;
+}
+
 method process_according_to_type {
 
     $self->log_trace('Checking form_type.');
@@ -106,10 +119,7 @@ method process_shout {
     my  $name_character_limit       =   34;
     my  $message_character_limit    =   1600;
     
-    # Reset fields before processing new values for them begins!
-    $self->stash('shout')->{errors}                     =   {};
-    $self->stash('shout')->{valid}                      =   {};
-    $self->stash('shout')->{'successful_submission'}    =   undef;
+    $self->reset_shout_fields;
     
     # Processing:
     for my $field ('name', 'message') {
